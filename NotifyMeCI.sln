@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotifyMeCI.Engine", "NotifyMeCI.Engine\NotifyMeCI.Engine.csproj", "{F8873127-C7A1-4EB7-94A5-F8AA23079C39}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotifyMeCI.Injector", "NotifyMeCI.Injector\NotifyMeCI.Injector.csproj", "{ADD295D0-4B8E-430F-B0A8-B7370F2563B6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotifyMeCI.GUI", "NotifyMeCI.GUI\NotifyMeCI.GUI.csproj", "{FF19FCE6-7B2B-4609-9D5A-BFC80B862236}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F8873127-C7A1-4EB7-94A5-F8AA23079C39}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8873127-C7A1-4EB7-94A5-F8AA23079C39}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8873127-C7A1-4EB7-94A5-F8AA23079C39}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8873127-C7A1-4EB7-94A5-F8AA23079C39}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ADD295D0-4B8E-430F-B0A8-B7370F2563B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ADD295D0-4B8E-430F-B0A8-B7370F2563B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ADD295D0-4B8E-430F-B0A8-B7370F2563B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ADD295D0-4B8E-430F-B0A8-B7370F2563B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF19FCE6-7B2B-4609-9D5A-BFC80B862236}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF19FCE6-7B2B-4609-9D5A-BFC80B862236}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF19FCE6-7B2B-4609-9D5A-BFC80B862236}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF19FCE6-7B2B-4609-9D5A-BFC80B862236}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

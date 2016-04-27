@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Do not remove this test for UTF-8: if “Ω” doesn’t appear as greek uppercase omega letter enclosed in quotation marks, you should use an editor that supports UTF-8, not this one. -->
+<package xmlns="http://schemas.microsoft.com/packaging/2015/06/nuspec.xsd">
+  <metadata>
+    <id>notify-me-ci</id>
+    <title>Notify Me CI</title>
+    <version>$version$</version>
+    <authors>Badgerati</authors>
+    <owners>Badgerati</owners>
+    <summary>Notify Me CI is a desktop/system tray application to notify you of CI tasks on servers like Jenkins</summary>
+    <description>
+Notify Me CI is a desktop/system tray application to notify you of CI tasks varying Servers.
+
+### Features
+
+ * Ability to add multiple CI servers (currently supports Jenkins and AppVeyor).
+ * Minimises to the system tray, notifying you of builds, fails and successes.
+    </description>
+    <projectUrl>http://badgerati.github.io/NotifyMeCI/</projectUrl>
+    <projectSourceUrl>https://github.com/Badgerati/NotifyMeCI</projectSourceUrl>
+    <packageSourceUrl>https://github.com/Badgerati/NotifyMeCI/tree/master/nuget-packages</packageSourceUrl>
+    <docsUrl>https://github.com/Badgerati/NotifyMeCI</docsUrl>
+    <bugTrackerUrl>https://github.com/Badgerati/NotifyMeCI/issues</bugTrackerUrl>
+    <tags>notify ci continuous integration notification desktop tray jenkins appveyor</tags>
+    <copyright>Copyright 2016</copyright>
+    <licenseUrl>https://github.com/Badgerati/NotifyMeCI/blob/master/LICENSE.txt</licenseUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <iconUrl>https://cdn.rawgit.com/Badgerati/NotifyMeCI/master/Images/noticemeci_icon_green.png</iconUrl>
+    <dependencies>
+      <dependency id="dotnet4.5" version="4.5.20120822" />
+    </dependencies>
+    <releaseNotes>https://github.com/Badgerati/NotifyMeCI/releases</releaseNotes>
+  </metadata>
+  <files>
+    <file src="tools\**" target="tools" />
+  </files>
+</package>

@@ -1,0 +1,12 @@
+language: csharp
+
+solution: NotifyMeCI.sln
+
+mono:
+  - latest
+
+install:
+  - nuget restore NotifyMeCI.sln
+
+script:
+  - xbuild /p:Configuration=Release /p:TargetFrameworkVersion="v4.5" /p:DebugSymbols=False NotifyMeCI.sln

@@ -17,7 +17,11 @@ Features
 Installing Notify Me CI
 =======================
 
-Coming to Chocolatey soon.
+Get it on Chocolatey!
+
+```bash
+choco install notify-me-ci
+```
 
 Usage
 =====

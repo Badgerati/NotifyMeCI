@@ -33,7 +33,7 @@ namespace NotifyMeCI.Engine.Tasks
 
         #region Delegates
 
-        public delegate void OnJobNotify(CIJob job);
+        public delegate void OnJobNotify(CIJob job, int sleep);
 
         #endregion
 
@@ -72,13 +72,13 @@ namespace NotifyMeCI.Engine.Tasks
                     if (_notifyQueue.TryDequeue(out job) && !Interrupted && JobHandler != null)
                     {
                         _currentNotifyJob = job;
-                        JobHandler(job);
+                        JobHandler(job, SleepTime);
                     }
                 }
 
                 if (!Interrupted)
                 {
-                    Thread.Sleep(SleepTime);
+                    Thread.Sleep((int)(SleepTime * 2.5));
                 }
             }
         }

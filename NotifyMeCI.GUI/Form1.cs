@@ -225,6 +225,17 @@ namespace NotifyMeCI.GUI
             }
         }
 
+        private void JobListView_DoubleClick(object sender, EventArgs e)
+        {
+            if (JobListView.SelectedItems == null || JobListView.SelectedItems.Count == 0)
+            {
+                return;
+            }
+
+            var job = Jobs[JobListView.SelectedIndices[0]];
+            Process.Start(job.Url);
+        }
+
         private void TaskbarNotifier_BalloonTipClicked(object sender, EventArgs e)
         {
             if (sender == default(object) || NotifyTask.CurrentNotifyJob == default(CIJob))
@@ -318,6 +329,9 @@ namespace NotifyMeCI.GUI
                 }
             }
 
+            // reset ordering
+            Jobs = Jobs.OrderBy(a => a.BuildStatus).ToList();
+
             // show the inform list
             UpdateNotifyIcon(Jobs);
             NotifyOfJobs(informList);
@@ -355,15 +369,13 @@ namespace NotifyMeCI.GUI
             jobs.ToList().ForEach(x => NotifyTask.NotifyQueue.Enqueue(x));
         }
 
-        private void NotifyJob(CIJob job)
+        private void NotifyJob(CIJob job, int sleep)
         {
-            TaskbarNotifier.ShowBalloonTip(2000, job.Name, job.BuildStatus.ToString(), ToolTipIcon.Info);
+            TaskbarNotifier.ShowBalloonTip(sleep, job.Name, string.Format("{0} on {1}", job.BuildStatus, job.ServerName), ToolTipIcon.Info);
         }
 
         private void UpdateJobGui(IList<CIJob> jobs)
         {
-            var guiJobs = jobs.OrderBy(a => a.BuildStatus).ToList();
-
             if (JobListView.InvokeRequired)
             {
                 JobListView.Invoke((MethodInvoker)delegate { JobListView.Items.Clear(); });
@@ -382,7 +394,7 @@ namespace NotifyMeCI.GUI
                 JobListView.SmallImageList = new ImageList() { ImageSize = new Size(1, 26) };
             }
 
-            foreach (var job in guiJobs)
+            foreach (var job in jobs)
             {
                 var item = new ListViewItem(new string[]
                     {

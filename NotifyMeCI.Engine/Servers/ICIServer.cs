@@ -16,6 +16,7 @@ namespace NotifyMeCI.Engine.Servers
     {
 
         IList<CIJob> GetJobs(CIServer server);
+        bool ValidateUrl(string url, string token, out string error);
 
     }
 

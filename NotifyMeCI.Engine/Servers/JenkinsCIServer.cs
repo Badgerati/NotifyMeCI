@@ -8,7 +8,6 @@ License: MIT (see LICENSE for details)
 
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using NotifyMeCI.Engine.Exceptions;
 using NotifyMeCI.Engine.Objects;
 using System;
 using System.Collections.Generic;
@@ -58,9 +57,9 @@ namespace NotifyMeCI.Engine.Servers
 
                 return _jobs;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw new NMCIException("Exception thrown while trying to retrieve jobs from Jenkins", ex);
+                return default(IList<CIJob>);
             }
         }
 
@@ -97,8 +96,8 @@ namespace NotifyMeCI.Engine.Servers
             }
             else
             {
-                var url = string.Format("{0}{1}", job.Url, job.BuildId);
-                var _buildJson = GetJson(url);
+                var _url = string.Format("{0}{1}", job.Url, job.BuildId);
+                var _buildJson = GetJson(_url);
 
                 // if no build then return current job setup
                 if (_buildJson == default(JObject))
@@ -111,11 +110,16 @@ namespace NotifyMeCI.Engine.Servers
                     ? GetInt(_buildJson["estimatedDuration"])
                     : GetInt(_buildJson["duration"]);
 
+                if (job.Duration > 0)
+                {
+                    job.Duration = (int)(job.Duration / 1000.0);
+                }
+
                 // get the timestamp
                 job.TimeStamp = EpochDate.AddMilliseconds(GetLong(_buildJson["timestamp"]));
 
                 // update url
-                job.Url = url;
+                job.Url = _url;
             }
 
             return job;

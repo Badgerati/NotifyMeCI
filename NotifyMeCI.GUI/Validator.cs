@@ -12,6 +12,7 @@ using NotifyMeCI.Engine.Objects;
 using NotifyMeCI.Injector;
 using System;
 using System.Net;
+using NotifyMeCI.Engine.Servers;
 
 namespace NotifyMeCI.GUI
 {
@@ -58,6 +59,11 @@ namespace NotifyMeCI.GUI
                 }
 
                 // check API token
+                if (!string.IsNullOrWhiteSpace(apiToken))
+                {
+                    apiToken = apiToken.Trim();
+                }
+
                 switch (_serverType)
                 {
                     case CIServerType.AppVeyor:
@@ -74,20 +80,12 @@ namespace NotifyMeCI.GUI
                     return string.Format("Invalid Server URL when adding new server: '{0}'", url);
                 }
 
-                try
-                {
-                    var request = WebRequest.Create(url);
+                var server = CIServerFactory.Instance.Get(_serverType);
+                var error = string.Empty;
 
-                    if (!string.IsNullOrWhiteSpace(apiToken))
-                    {
-                        request.Headers.Add(HttpRequestHeader.Authorization, string.Format("Bearer {0}", apiToken));
-                    }
-
-                    using (var response = request.GetResponse()) { }
-                }
-                catch (Exception ex)
+                if (!server.ValidateUrl(url, apiToken, out error))
                 {
-                    return string.Format("Error connecting to Server URL provided:{0}{0}{1}", Environment.NewLine, ex.Message);
+                    return error;
                 }
             }
             catch (Exception ex)

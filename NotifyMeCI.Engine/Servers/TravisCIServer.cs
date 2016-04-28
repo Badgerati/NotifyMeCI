@@ -18,7 +18,7 @@ using NotifyMeCI.Engine.Enums;
 
 namespace NotifyMeCI.Engine.Servers
 {
-    public class AppVeyorCIServer : BaseCIServer
+    public class TravisCIServer : BaseCIServer
     {
 
         #region Public Helpers
@@ -56,8 +56,10 @@ namespace NotifyMeCI.Engine.Servers
 
             try
             {
-                var request = WebRequest.Create(url);
-                request.Headers.Add(HttpRequestHeader.Authorization, string.Format("Bearer {0}", token));
+                var request = (HttpWebRequest)WebRequest.Create(url);
+                
+                request.Accept = "application/vnd.travis-ci.2+json";
+                request.ContentType = "application/json";
 
                 using (var response = request.GetResponse()) { }
                 return true;
@@ -75,58 +77,67 @@ namespace NotifyMeCI.Engine.Servers
 
         private IList<CIJob> GetJobsList(CIServer server)
         {
-            var _jobsJson = GetJson(server.Url, server.ApiToken);
+            var _jobsJson = GetJson(server.Url);
 
             // if no jobs then return
-            if (_jobsJson == default(JArray) || !_jobsJson.Any())
+            if (_jobsJson == default(JObject))
             {
                 return default(IList<CIJob>);
             }
-            
+
+            // get repos
+            var _reposJson = (JArray)_jobsJson["repos"];
+            if (_reposJson == default(JArray) || !_reposJson.Any())
+            {
+                return default(IList<CIJob>);
+            }
+
             // setup basic jobs with name, url and status
-            return _jobsJson
+            return _reposJson
                 .Select(x => InitialiseJob(x, server))
+                .Where(x => x != default(CIJob))
                 .ToList();
         }
 
         private CIJob InitialiseJob(JToken projectJson, CIServer server)
         {
-            var _job = new CIJob();
-
-            _job.ServerType = CIServerType.AppVeyor;
-            _job.ServerName = server.Name;
-            _job.Name = GetString(projectJson["name"]);
-
-            _job.Url = string.Format("{0}/{1}/{2}", server.Url.TrimEnd('/', '\\'), projectJson["accountName"], projectJson["slug"]);
-            _job.Url = _job.Url.Replace("api/", string.Empty);
-            _job.Url = _job.Url.Replace("/projects/", "/project/");
-
-            var _buildsJson = (JArray)projectJson["builds"];
-            if (_buildsJson == default(JArray) || !_buildsJson.Any())
+            if (!GetBool(projectJson["active"]))
             {
-                _job.BuildStatus = BuildStatusType.Unknown;
-                return _job;
+                return default(CIJob);
             }
 
-            var _buildJson = _buildsJson.First;
-            _job.Name = string.Format("{0} ({1})", _job.Name, _buildJson["branch"]);
-            _job.BuildId = GetString(_buildJson["version"]);
-            _job.TimeStamp = GetDateTime(_buildJson["started"]);
+            var _job = new CIJob();
 
-            var finished = GetDateTime(_buildJson["finished"]);
-            _job.Duration = finished != DateTime.MinValue
-                ? (int)(finished - _job.TimeStamp).TotalSeconds
-                : 0;
+            _job.ServerType = CIServerType.TravisCI;
+            _job.ServerName = server.Name;
+            _job.Name = GetString(projectJson["slug"]);
 
-            _job.BuildStatus = MapBuildStatus(_buildJson["status"].ToString());
+            // is the server open source, pro or enterprise?
+            if (server.Url.Contains("api.travis-ci.org"))
+            {
+                _job.Url = string.Format("https://travis-ci.org/{0}", _job.Name);
+            }
+            else if (server.Url.Contains("api.travis-ci.com"))
+            {
+                _job.Url = string.Format("https://travis-ci.com/{0}", _job.Name);
+            }
+            else
+            {
+                _job.Url = string.Format("{0}/{1}", server.Url.Split(new[] { "/api/" }, StringSplitOptions.RemoveEmptyEntries)[0], _job.Name);
+            }
+            
+            _job.BuildId = GetString(projectJson["last_build_number"]);
+            _job.TimeStamp = GetDateTime(projectJson["last_build_started_at"]);
+            _job.Duration = GetInt(projectJson["last_build_duration"]);
+            _job.BuildStatus = MapBuildStatus(projectJson["last_build_state"].ToString());
 
             return _job;
         }
 
-        private JArray GetJson(string url, string token)
+        private JObject GetJson(string url)
         {
-            var _request = GetRequest(url, token);
-            var _jobsJson = default(JArray);
+            var _request = GetRequest(url);
+            var _jobsJson = default(JObject);
 
             using (var _response = _request.GetResponse())
             {
@@ -134,7 +145,7 @@ namespace NotifyMeCI.Engine.Servers
                 {
                     using (var _reader = new JsonTextReader(_stream))
                     {
-                        _jobsJson = (JArray)JToken.ReadFrom(_reader);
+                        _jobsJson = (JObject)JToken.ReadFrom(_reader);
                     }
                 }
             }
@@ -142,10 +153,13 @@ namespace NotifyMeCI.Engine.Servers
             return _jobsJson;
         }
 
-        private WebRequest GetRequest(string url, string token)
+        private HttpWebRequest GetRequest(string url)
         {
-            var request = WebRequest.Create(url);
-            request.Headers.Add(HttpRequestHeader.Authorization, string.Format("Bearer {0}", token));
+            var request = (HttpWebRequest)WebRequest.Create(url);
+
+            request.Accept = "application/vnd.travis-ci.2+json";
+            request.ContentType = "application/json";
+
             return request;
         }
 
@@ -170,7 +184,7 @@ namespace NotifyMeCI.Engine.Servers
                     return BuildStatusType.Pending;
 
                 case "building":
-                case "pending":
+                case "started":
                 case "running":
                     return BuildStatusType.Building;
             }

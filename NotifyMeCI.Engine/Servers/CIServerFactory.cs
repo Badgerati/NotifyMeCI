@@ -36,6 +36,9 @@ namespace NotifyMeCI.Engine.Servers
                 case CIServerType.AppVeyor:
                     return new AppVeyorCIServer();
 
+                case CIServerType.TravisCI:
+                    return new TravisCIServer();
+
                 default:
                     throw new ArgumentException("Unexpected server type passed: " + serverType);
             }

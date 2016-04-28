@@ -309,7 +309,8 @@
             this.ServerTypeDdl.FormattingEnabled = true;
             this.ServerTypeDdl.Items.AddRange(new object[] {
             "Jenkins",
-            "AppVeyor"});
+            "AppVeyor",
+            "TravisCI"});
             this.ServerTypeDdl.Location = new System.Drawing.Point(93, 24);
             this.ServerTypeDdl.Name = "ServerTypeDdl";
             this.ServerTypeDdl.Size = new System.Drawing.Size(101, 21);

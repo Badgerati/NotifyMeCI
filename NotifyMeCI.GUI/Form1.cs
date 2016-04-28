@@ -134,22 +134,26 @@ namespace NotifyMeCI.GUI
             switch (serverType)
             {
                 case CIServerType.AppVeyor:
-                    if (string.IsNullOrWhiteSpace(ServerUrlTxt.Text))
-                    {
-                        ServerUrlTxt.Text = "https://ci.appveyor.com/api/projects";
-                    }
+                    ServerUrlTxt.Text = "https://ci.appveyor.com/api/projects";
+                    break;
+
+                case CIServerType.TravisCI:
+                    ServerUrlTxt.Text = "https://api.travis-ci.org/repos/<USERNAME>";
                     break;
             }
 
-            if (serverType == CIServerType.Jenkins)
+            switch (serverType)
             {
-                ApiTokenTxt.Visible = false;
-                ApiTokenLbl.Visible = false;
-            }
-            else
-            {
-                ApiTokenTxt.Visible = true;
-                ApiTokenLbl.Visible = true;
+                case CIServerType.Jenkins:
+                case CIServerType.TravisCI:
+                    ApiTokenTxt.Visible = false;
+                    ApiTokenLbl.Visible = false;
+                    break;
+
+                default:
+                    ApiTokenTxt.Visible = true;
+                    ApiTokenLbl.Visible = true;
+                    break;
             }
         }
 
@@ -402,7 +406,7 @@ namespace NotifyMeCI.GUI
                         job.Name,
                         job.ServerName,
                         job.TimeStamp.ToLongDateString() + " " + job.TimeStamp.ToLongTimeString(),
-                        job.Duration + "ms",
+                        job.Duration + "secs",
                         job.BuildStatus.ToString()
                     });
 

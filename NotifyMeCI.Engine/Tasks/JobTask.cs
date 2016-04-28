@@ -84,8 +84,8 @@ namespace NotifyMeCI.Engine.Tasks
                         }
 
                         var process = CIServerFactory.Instance.Get(servers[i].ServerType);
-                        var jobs = process.GetJobs(servers[i]);
 
+                        var jobs = process.GetJobs(servers[i]);
                         if (jobs == default(IList<CIJob>))
                         {
                             continue;

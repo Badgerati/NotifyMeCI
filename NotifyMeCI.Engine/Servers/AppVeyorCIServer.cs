@@ -77,7 +77,7 @@ namespace NotifyMeCI.Engine.Servers
 
             job.ServerType = CIServerType.AppVeyor;
             job.ServerName = server.Name;
-            job.Name = string.Format("{0} ({1})", projectJson["name"], projectJson["repositoryBranch"]);
+            job.Name = GetString(projectJson["name"]);
 
             job.Url = string.Format("{0}/{1}/{2}", server.Url.TrimEnd('/', '\\'), projectJson["accountName"], projectJson["slug"]);
             job.Url = job.Url.Replace("api/", string.Empty);
@@ -91,6 +91,7 @@ namespace NotifyMeCI.Engine.Servers
             }
 
             var buildJson = buildsJson.First;
+            job.Name = string.Format("{0} ({1})", job.Name, buildJson["branch"]);
             job.BuildId = GetString(buildJson["version"]);
             job.TimeStamp = GetDateTime(buildJson["started"]);
 

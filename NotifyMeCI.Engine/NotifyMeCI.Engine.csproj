@@ -55,6 +55,7 @@
     <Compile Include="Misc\ApplicationEvents.cs" />
     <Compile Include="Objects\CIJob.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Servers\TravisCIServer.cs" />
     <Compile Include="Servers\AppVeyorCIServer.cs" />
     <Compile Include="Servers\BaseCIServer.cs" />
     <Compile Include="Servers\CIServerFactory.cs" />

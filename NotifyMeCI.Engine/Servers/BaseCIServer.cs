@@ -10,6 +10,7 @@ using NotifyMeCI.Engine.Objects;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Net;
 
 namespace NotifyMeCI.Engine.Servers
 {
@@ -23,6 +24,23 @@ namespace NotifyMeCI.Engine.Servers
             return default(IList<CIJob>);
         }
 
+        public virtual bool ValidateUrl(string url, string token, out string error)
+        {
+            error = string.Empty;
+
+            try
+            {
+                var request = WebRequest.Create(url);
+                using (var response = request.GetResponse()) { }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                error = string.Format("Error connecting to Server URL provided:{0}{0}{1}", Environment.NewLine, ex.Message);
+                return false;
+            }
+        }
+
         #endregion
 
         #region Protected Helpers
@@ -34,7 +52,21 @@ namespace NotifyMeCI.Engine.Servers
                 return 0;
             }
 
-            return int.Parse(value.ToString(), CultureInfo.InvariantCulture);
+            var _value = 0;
+            int.TryParse(value.ToString(), NumberStyles.Any, CultureInfo.InvariantCulture, out _value);
+            return _value;
+        }
+
+        protected bool GetBool(object value)
+        {
+            if (value == default(object))
+            {
+                return false;
+            }
+
+            var _value = false;
+            bool.TryParse(value.ToString(), out _value);
+            return _value;
         }
 
         protected string GetString(object value)
@@ -54,7 +86,9 @@ namespace NotifyMeCI.Engine.Servers
                 return 0;
             }
 
-            return long.Parse(value.ToString(), CultureInfo.InvariantCulture);
+            var _value = 0L;
+            long.TryParse(value.ToString(), NumberStyles.Any, CultureInfo.InvariantCulture, out _value);
+            return _value;
         }
 
         protected DateTime GetDateTime(object value)
@@ -64,7 +98,9 @@ namespace NotifyMeCI.Engine.Servers
                 return DateTime.MinValue;
             }
 
-            return DateTime.Parse(value.ToString());
+            var _value = DateTime.MinValue;
+            DateTime.TryParse(value.ToString(), out _value);
+            return _value;
         }
 
         #endregion

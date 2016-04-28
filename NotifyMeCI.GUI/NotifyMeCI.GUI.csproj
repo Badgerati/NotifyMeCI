@@ -33,6 +33,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>green_icon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Icarus.Core, Version=1.1.0.3, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Icarus.Core.1.1.0.3\lib\net45\Icarus.Core.dll</HintPath>
@@ -123,6 +126,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\yellow_icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="green_icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

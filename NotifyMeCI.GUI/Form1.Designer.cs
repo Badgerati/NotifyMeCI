@@ -132,6 +132,7 @@
             this.JobListView.TabIndex = 0;
             this.JobListView.UseCompatibleStateImageBehavior = false;
             this.JobListView.View = System.Windows.Forms.View.Details;
+            this.JobListView.DoubleClick += new System.EventHandler(this.JobListView_DoubleClick);
             // 
             // JobList_BuildIdColumn
             // 

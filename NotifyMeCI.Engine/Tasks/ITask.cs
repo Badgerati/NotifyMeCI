@@ -11,8 +11,11 @@ namespace NotifyMeCI.Engine.Tasks
     public interface ITask
     {
 
+        bool IsInterrupted { get; }
+
         void Interrupt();
         void Run();
+        void CoreLogic();
 
     }
 }

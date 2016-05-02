@@ -11,8 +11,15 @@ Notify Me CI is a desktop/system tray application to notify you of CI tasks acro
 Features
 ========
 
-* Ability to add multiple CI servers (currently supports Jenkins and AppVeyor).
+* Ability to add multiple CI servers.
 * Minimises to the system tray, notifying you of builds, fails and successes.
+
+Servers Supported
+=================
+
+* Jenkins
+* AppVeyor
+* Travis CI
 
 Installing Notify Me CI
 =======================
@@ -45,7 +52,6 @@ Note: The process for AppVeyor is basically identical to the above however, the 
 To Do
 =====
 
-* Add Travis CI and TeamCity.
 * Maybe make the GUI look prettier?
 
 Bugs and Feature Requests

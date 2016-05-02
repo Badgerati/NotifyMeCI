@@ -7,14 +7,20 @@
     <version>$version$</version>
     <authors>Badgerati</authors>
     <owners>Badgerati</owners>
-    <summary>Notify Me CI is a desktop/system tray application to notify you of CI tasks on servers like Jenkins</summary>
+    <summary>Notify Me CI is a desktop application to notify you of CI tasks on servers like Jenkins</summary>
     <description>
-Notify Me CI is a desktop/system tray application to notify you of CI tasks across varying Servers.
+Notify Me CI is a desktop application to notify you of CI tasks across varying Servers.
 
 ### Features
 
- * Ability to add multiple CI servers (currently supports Jenkins and AppVeyor).
+ * Ability to add multiple CI servers.
  * Minimises to the system tray, notifying you of builds, fails and successes.
+
+### Servers Supported
+
+ * Jenkins
+ * AppVeyor
+ * Travis CI
     </description>
     <projectUrl>http://badgerati.github.io/NotifyMeCI/</projectUrl>
     <projectSourceUrl>https://github.com/Badgerati/NotifyMeCI</projectSourceUrl>

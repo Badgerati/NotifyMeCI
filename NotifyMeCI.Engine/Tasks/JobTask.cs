@@ -35,6 +35,15 @@ namespace NotifyMeCI.Engine.Tasks
 
         #endregion
 
+        #region Properties
+
+        public bool IsInterrupted
+        {
+            get { return Interrupted; }
+        }
+
+        #endregion
+
         #region Fields
 
         private OnJobUpdate JobHandler = null;
@@ -64,61 +73,67 @@ namespace NotifyMeCI.Engine.Tasks
         {
             while (!Interrupted)
             {
-                // get all the servers that need updating
-                var servers = IsFirstRun
-                    ? CIServerRepository.All()
-                    : CIServerRepository.FindByNextPollDate();
-
-                if (servers != default(IList<CIServer>) && servers.Any())
-                {
-                    // only the servers that are active
-                    servers = servers.Where(x => x.Enabled).ToList();
-                    var allJobs = new List<CIJob>();
-
-                    // get each job from each server
-                    for (var i = 0; i < servers.Count; i++)
-                    {
-                        if (Interrupted)
-                        {
-                            break;
-                        }
-
-                        var process = CIServerFactory.Instance.Get(servers[i].ServerType);
-
-                        var jobs = process.GetJobs(servers[i]);
-                        if (jobs == default(IList<CIJob>))
-                        {
-                            continue;
-                        }
-
-                        // add the jobs to be returned
-                        allJobs.AddRange(jobs);
-
-                        // update the servers polling
-                        if (!IsFirstRun)
-                        {
-                            servers[i].LastPollDate = servers[i].NextPollDate;
-                            servers[i].NextPollDate = DateTime.Now.AddSeconds(servers[i].PollInterval);
-                            CIServerRepository.Update(servers[i]);
-                        }
-                    }
-
-                    // inform the UI of the jobs
-                    if (!Interrupted && JobHandler != null)
-                    {
-                        JobHandler(allJobs);
-                    }
-
-                    if (IsFirstRun)
-                    {
-                        IsFirstRun = false;
-                    }
-                }
+                // run the core logic
+                CoreLogic();
 
                 // sleep for 10 secs to reduce load
                 if (!Interrupted)
                 {
                     Thread.Sleep(10000);
+                }
+            }
+        }
+
+        public void CoreLogic()
+        {
+            // get all the servers that need updating
+            var servers = IsFirstRun
+                ? CIServerRepository.All()
+                : CIServerRepository.FindByNextPollDate();
+
+            if (servers != default(IList<CIServer>) && servers.Any())
+            {
+                // only the servers that are active
+                servers = servers.Where(x => x.Enabled).ToList();
+                var allJobs = new List<CIJob>();
+
+                // get each job from each server
+                for (var i = 0; i < servers.Count; i++)
+                {
+                    if (Interrupted)
+                    {
+                        break;
+                    }
+
+                    var process = CIServerFactory.Instance.Get(servers[i].ServerType);
+
+                    var jobs = process.GetJobs(servers[i]);
+                    if (jobs == default(IList<CIJob>))
+                    {
+                        continue;
+                    }
+
+                    // add the jobs to be returned
+                    allJobs.AddRange(jobs);
+
+                    // update the servers polling
+                    if (!IsFirstRun)
+                    {
+                        servers[i].LastPollDate = servers[i].NextPollDate;
+                        servers[i].NextPollDate = DateTime.Now.AddSeconds(servers[i].PollInterval);
+                        CIServerRepository.Update(servers[i]);
+                    }
+                }
+
+                // inform the UI of the jobs
+                if (!Interrupted && JobHandler != null)
+                {
+                    JobHandler(allJobs);
+                }
+
+                if (IsFirstRun)
+                {
+                    IsFirstRun = false;
                 }
             }
         }

@@ -67,6 +67,8 @@ namespace NotifyMeCI.GUI
                 tabControl1.SelectedTab = ServersTab;
             }
 
+            tabControl1.SelectedIndexChanged += TabControl1_SelectedIndexChanged;
+
             // setup notify event
             TaskbarNotifier.BalloonTipClicked += TaskbarNotifier_BalloonTipClicked;
             TaskbarNotifier.MouseDoubleClick += TaskbarNotifier_MouseDoubleClick;
@@ -91,12 +93,36 @@ namespace NotifyMeCI.GUI
             CloseForm();
         }
 
+        private void TabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var tab = tabControl1.SelectedTab;
+
+            if (sender == default(object) || tab == default(TabPage))
+            {
+                return;
+            }
+
+            if (tab.Text.Equals("Servers", StringComparison.InvariantCultureIgnoreCase))
+            {
+                SetupServerList();
+            }
+        }
+
         private void Form1_Resize(object sender, EventArgs e)
         {
-            if (WindowState == FormWindowState.Minimized)
+            switch (WindowState)
             {
-                TaskbarNotifier.Visible = true;
-                Hide();
+                case FormWindowState.Minimized:
+                    TaskbarNotifier.Visible = true;
+                    Hide();
+                    break;
+
+                case FormWindowState.Normal:
+                    if (JobTask != default(ITask) && !JobTask.IsInterrupted)
+                    {
+                        JobTask.CoreLogic();
+                    }
+                    break;
             }
         }
 
@@ -223,7 +249,8 @@ namespace NotifyMeCI.GUI
             var server = Servers[ServerListView.SelectedIndices[0]];
             var edit = new EditServerForm(server);
 
-            if (edit.ShowDialog() == DialogResult.OK)
+            var result = edit.ShowDialog();
+            if (result == DialogResult.OK || result == DialogResult.None)
             {
                 SetupServerList();
             }

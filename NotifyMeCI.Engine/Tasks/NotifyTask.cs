@@ -37,6 +37,15 @@ namespace NotifyMeCI.Engine.Tasks
 
         #endregion
 
+        #region Properties
+
+        public bool IsInterrupted
+        {
+            get { return Interrupted; }
+        }
+
+        #endregion
+
         #region Fields
 
         private OnJobNotify JobHandler = null;
@@ -66,19 +75,24 @@ namespace NotifyMeCI.Engine.Tasks
         {
             while (!Interrupted)
             {
-                if (_notifyQueue != default(ConcurrentQueue<CIJob>) && _notifyQueue.Count > 0)
-                {
-                    var job = default(CIJob);
-                    if (_notifyQueue.TryDequeue(out job) && !Interrupted && JobHandler != null)
-                    {
-                        _currentNotifyJob = job;
-                        JobHandler(job, SleepTime);
-                    }
-                }
+                CoreLogic();
 
                 if (!Interrupted)
                 {
                     Thread.Sleep((int)(SleepTime * 2.5));
+                }
+            }
+        }
+
+        public void CoreLogic()
+        {
+            if (_notifyQueue != default(ConcurrentQueue<CIJob>) && _notifyQueue.Count > 0)
+            {
+                var job = default(CIJob);
+                if (_notifyQueue.TryDequeue(out job) && !Interrupted && JobHandler != null)
+                {
+                    _currentNotifyJob = job;
+                    JobHandler(job, SleepTime);
                 }
             }
         }

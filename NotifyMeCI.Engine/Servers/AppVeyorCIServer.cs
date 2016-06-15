@@ -82,7 +82,7 @@ namespace NotifyMeCI.Engine.Servers
             {
                 return default(IList<CIJob>);
             }
-            
+
             // setup basic jobs with name, url and status
             return _jobsJson
                 .Select(x => InitialiseJob(x, server))

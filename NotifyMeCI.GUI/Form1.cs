@@ -170,7 +170,6 @@ namespace NotifyMeCI.GUI
 
             switch (serverType)
             {
-                case CIServerType.Jenkins:
                 case CIServerType.TravisCI:
                     ApiTokenTxt.Visible = false;
                     ApiTokenLbl.Visible = false;

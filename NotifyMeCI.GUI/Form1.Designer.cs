@@ -88,7 +88,7 @@
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(52, 20);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
@@ -211,9 +211,9 @@
             this.ApiTokenLbl.AutoSize = true;
             this.ApiTokenLbl.Location = new System.Drawing.Point(664, 3);
             this.ApiTokenLbl.Name = "ApiTokenLbl";
-            this.ApiTokenLbl.Size = new System.Drawing.Size(58, 13);
+            this.ApiTokenLbl.Size = new System.Drawing.Size(75, 13);
             this.ApiTokenLbl.TabIndex = 11;
-            this.ApiTokenLbl.Text = "API Token";
+            this.ApiTokenLbl.Text = "Authentication";
             // 
             // ApiTokenTxt
             // 

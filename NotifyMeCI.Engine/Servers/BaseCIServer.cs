@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Net;
+using System.Text;
 
 namespace NotifyMeCI.Engine.Servers
 {
@@ -44,6 +45,12 @@ namespace NotifyMeCI.Engine.Servers
         #endregion
 
         #region Protected Helpers
+
+        protected string GetBase64String(string token)
+        {
+            var bytes = Encoding.UTF8.GetBytes(token);
+            return Convert.ToBase64String(bytes);
+        }
 
         protected int GetInt(object value)
         {

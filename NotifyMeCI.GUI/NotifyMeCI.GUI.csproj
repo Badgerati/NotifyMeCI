@@ -37,8 +37,12 @@
     <ApplicationIcon>green_icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Icarus.Core, Version=1.1.0.3, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Icarus.Core.1.1.0.3\lib\net45\Icarus.Core.dll</HintPath>
+    <Reference Include="Haxxor.Framework, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Haxxor.Framework.1.0.0.1\lib\net45\Haxxor.Framework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Icarus.Core, Version=1.3.0.5, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Icarus.Core.1.3.0.5\lib\net45\Icarus.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">

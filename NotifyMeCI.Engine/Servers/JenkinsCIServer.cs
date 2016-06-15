@@ -52,7 +52,7 @@ namespace NotifyMeCI.Engine.Servers
                 // update each job with full descriptions
                 for (var i = 0; i < _jobs.Count; i++)
                 {
-                    _jobs[i] = UpdateJob(_jobs[i]);
+                    _jobs[i] = UpdateJob(_jobs[i], server.ApiToken);
                 }
 
                 return _jobs;
@@ -63,11 +63,35 @@ namespace NotifyMeCI.Engine.Servers
             }
         }
 
+        public override bool ValidateUrl(string url, string token, out string error)
+        {
+            error = string.Empty;
+
+            try
+            {
+                var request = WebRequest.Create(url);
+
+                if (!string.IsNullOrWhiteSpace(token))
+                {
+                    request.PreAuthenticate = true;
+                    request.Headers.Add(HttpRequestHeader.Authorization, string.Format("Basic {0}", GetBase64String(token)));
+                }
+
+                using (var response = request.GetResponse()) { }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                error = string.Format("Error connecting to Server URL provided:{0}{0}{1}", Environment.NewLine, ex.Message);
+                return false;
+            }
+        }
+
         #endregion
 
         #region Private Helpers
 
-        private CIJob UpdateJob(CIJob job)
+        private CIJob UpdateJob(CIJob job, string token)
         {
             if (job == default(CIJob))
             {
@@ -75,7 +99,7 @@ namespace NotifyMeCI.Engine.Servers
             }
 
             // retrieve job page json
-            var _jobJson = GetJson(job.Url);
+            var _jobJson = GetJson(job.Url, token);
 
             // if no job then return
             if (_jobJson == default(JObject))
@@ -97,7 +121,7 @@ namespace NotifyMeCI.Engine.Servers
             else
             {
                 var _url = string.Format("{0}{1}", job.Url, job.BuildId);
-                var _buildJson = GetJson(_url);
+                var _buildJson = GetJson(_url, token);
 
                 // if no build then return current job setup
                 if (_buildJson == default(JObject))
@@ -125,9 +149,9 @@ namespace NotifyMeCI.Engine.Servers
             return job;
         }
 
-        private JObject GetJson(string url)
+        private JObject GetJson(string url, string token)
         {
-            var _request = GetRequest(url);
+            var _request = GetRequest(url, token);
             var _jobsJson = default(JObject);
 
             using (var _response = _request.GetResponse())
@@ -146,7 +170,7 @@ namespace NotifyMeCI.Engine.Servers
 
         private IList<CIJob> GetInitialJobsList(CIServer server)
         {
-            var _jobsJson = GetJson(server.Url);
+            var _jobsJson = GetJson(server.Url, server.ApiToken);
 
             // if no jobs then return
             if (_jobsJson == default(JObject) || !((JArray)_jobsJson["jobs"]).Any())
@@ -203,11 +227,19 @@ namespace NotifyMeCI.Engine.Servers
                 : BuildStatusType.Unknown;
         }
 
-        private WebRequest GetRequest(string url)
+        private WebRequest GetRequest(string url, string token)
         {
-            return WebRequest.Create(string.Format("{0}/api/json", url.TrimEnd('/', '\\')));
+            var request = WebRequest.Create(string.Format("{0}/api/json", url.TrimEnd('/', '\\')));
+
+            if (!string.IsNullOrWhiteSpace(token))
+            {
+                request.PreAuthenticate = true;
+                request.Headers.Add(HttpRequestHeader.Authorization, string.Format("Basic {0}", GetBase64String(token)));
+            }
+
+            return request;
         }
-        
+
         #endregion
 
     }

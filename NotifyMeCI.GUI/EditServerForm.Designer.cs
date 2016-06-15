@@ -153,9 +153,9 @@
             this.ServerApiTokenLbl.AutoSize = true;
             this.ServerApiTokenLbl.Location = new System.Drawing.Point(12, 148);
             this.ServerApiTokenLbl.Name = "ServerApiTokenLbl";
-            this.ServerApiTokenLbl.Size = new System.Drawing.Size(61, 13);
+            this.ServerApiTokenLbl.Size = new System.Drawing.Size(78, 13);
             this.ServerApiTokenLbl.TabIndex = 9;
-            this.ServerApiTokenLbl.Text = "API Token:";
+            this.ServerApiTokenLbl.Text = "Authentication:";
             // 
             // label7
             // 
@@ -209,7 +209,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(341, 247);
+            this.ClientSize = new System.Drawing.Size(333, 239);
             this.Controls.Add(this.UpdateBtn);
             this.Controls.Add(this.DeleteBtn);
             this.Controls.Add(this.CancelBtn);

@@ -41,7 +41,7 @@ Let's say you're adding a Jenkins server:
 * Select a unique name, this will help you to identify the server later on in the `Jobs` tab.
 * Enter the main view URL for Jenkins, such as `http://localhost:8080/` (or a sub-view if you wish)
 * Select a poll frequency, in seconds. This tells the background process how often to poll Jenkins for updates.
-* If your Jenkins server requires it, enter the Authentication value as "<username>:<api_token or password>", otherwise leave this blank.
+* If your Jenkins server requires it, enter the Authentication value as "[username]:[api_token or password]", otherwise leave this blank.
 * Click `Add Server`.
 
 There will be some validation run when you add the server, but assuming all goes well the jobs will be collected from the server when the background process next attempts to poll.

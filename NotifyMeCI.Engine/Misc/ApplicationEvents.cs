@@ -38,7 +38,7 @@ namespace NotifyMeCI.Engine.Misc
             }
 
             var location = Path.GetDirectoryName(assembly.Location);
-            IcarusClient.Instance.Initialise(location);
+            IcarusClient.Instance.Initialise(location, true);
         }
 
         #endregion

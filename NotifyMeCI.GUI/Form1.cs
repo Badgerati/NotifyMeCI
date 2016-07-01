@@ -359,6 +359,13 @@ namespace NotifyMeCI.GUI
                 }
             }
 
+            // remove jobs from the list that no longer exist on the server
+            var deadJobs = Jobs.Where(x => !jobs.Any(y => y.Name == x.Name && y.ServerName == x.ServerName));
+            foreach (var job in deadJobs.ToList())
+            {
+                Jobs.Remove(job);
+            }
+
             // reset ordering
             Jobs = Jobs.OrderBy(a => a.BuildStatus).ToList();
 
@@ -470,7 +477,7 @@ namespace NotifyMeCI.GUI
                 else
                 {
                     JobListView.Items.Add(item);
-                }                
+                }
             }
         }
 

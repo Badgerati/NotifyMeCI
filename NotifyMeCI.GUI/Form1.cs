@@ -480,6 +480,7 @@ namespace NotifyMeCI.GUI
             jobToUpdate.BuildStatus = job.BuildStatus;
             jobToUpdate.Duration = job.Duration;
             jobToUpdate.TimeStamp = job.TimeStamp;
+            jobToUpdate.Url = job.Url;
         }
 
         private void CloseForm()

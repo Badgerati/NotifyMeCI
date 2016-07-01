@@ -25,8 +25,18 @@ if ($count -gt 0)
 Install-ChocolateyZipPackage @packageArgs
 
 # Attempt to start NotifyMeCI again, if it was previously running
-if ($count -gt 0)
+$reopenPath = Join-Path $env:chocolateyPackageFolder 'tools/.reopen'
+if ($count -gt 0 -or (Test-Path $reopenPath))
 {
     Write-Host 'Re-opening NotifyMeCI'
     Start-Process NotifyMeCI.GUI.exe
+}
+
+if (Test-Path $reopenPath)
+{
+    try
+    {
+        Remove-Item -Path $reopenPath -Force | Out-Null
+    }
+    catch { }
 }

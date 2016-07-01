@@ -15,7 +15,3 @@ if ($count -gt 0)
     }
     catch { }
 }
-else
-{
-    Write-Host 'NotifyMeCI has no instances open'
-}

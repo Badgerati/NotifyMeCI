@@ -35,12 +35,12 @@
       <HintPath>..\packages\Haxxor.Framework.1.0.0.1\lib\net45\Haxxor.Framework.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Icarus.Core, Version=1.3.1.6, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Icarus.Core.1.3.1.6\lib\net45\Icarus.Core.dll</HintPath>
+    <Reference Include="Icarus.Core, Version=1.3.2.7, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Icarus.Core.1.3.2.7\lib\net45\Icarus.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -56,9 +56,13 @@
     <Compile Include="Enums\BuildStatusType.cs" />
     <Compile Include="Enums\CIServerType.cs" />
     <Compile Include="Exceptions\NMCIException.cs" />
+    <Compile Include="Managers\SettingManager.cs" />
     <Compile Include="Misc\ApplicationEvents.cs" />
     <Compile Include="Objects\CIJob.cs" />
+    <Compile Include="Objects\Setting.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\SettingRepository.cs" />
+    <Compile Include="Repositories\Interfaces\ISettingRepository.cs" />
     <Compile Include="Servers\TravisCIServer.cs" />
     <Compile Include="Servers\AppVeyorCIServer.cs" />
     <Compile Include="Servers\BaseCIServer.cs" />

@@ -7,12 +7,19 @@ License: MIT (see LICENSE for details)
  */
 
 using System;
+using System.Reflection;
 using System.Windows.Forms;
 
 namespace NotifyMeCI.GUI
 {
     public static class Logger
     {
+
+        public static string Version
+        {
+            get { return Assembly.GetEntryAssembly().GetName().Version.ToString(); }
+        }
+
 
         public static void ShowErrorMessage(string message, string title)
         {

@@ -16,12 +16,12 @@ using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Reflection;
 using System.Windows.Forms;
 using System.Threading.Tasks;
 using NotifyMeCI.GUI.Properties;
 using NotifyMeCI.Engine.Tasks;
 using System.Diagnostics;
+using NotifyMeCI.Engine.Managers;
 
 namespace NotifyMeCI.GUI
 {
@@ -43,15 +43,20 @@ namespace NotifyMeCI.GUI
         private IList<CIJob> Jobs = new List<CIJob>(10);
         private JobTask JobTask = default(JobTask);
         private NotifyTask NotifyTask = default(NotifyTask);
+        private ConsoleOptions Options = default(ConsoleOptions);
 
         #endregion
 
         #region Constructor
 
-        public Form1()
+        public Form1(ConsoleOptions options)
         {
             // initialise
+            Options = options;
             InitializeComponent();
+
+            // events
+            Shown += Form1_Shown;
             FormClosing += Form1_FormClosing;
             FormClosed += Form1_FormClosed;
             Resize += Form1_Resize;
@@ -82,6 +87,18 @@ namespace NotifyMeCI.GUI
         #endregion
 
         #region Events
+
+        private void Form1_Shown(object sender, EventArgs e)
+        {
+            if ((Options != default(ConsoleOptions) && Options.Minimize) || SettingManager.Instance.Minimize)
+            {
+                WindowState = FormWindowState.Minimized;
+                Hide();
+
+                TaskbarNotifier.Visible = true;
+                TaskbarNotifier.ShowBalloonTip(10000, "Test", "Test", ToolTipIcon.Info);
+            }
+        }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -134,7 +151,7 @@ namespace NotifyMeCI.GUI
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Author: Matthew Kelly\nVersion: " + Assembly.GetEntryAssembly().GetName().Version,
+            MessageBox.Show("Author: Matthew Kelly\nVersion: " + Logger.Version,
                 "Notify Me CI",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information);
@@ -255,6 +272,12 @@ namespace NotifyMeCI.GUI
             }
         }
 
+        private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var settings = new SettingsForm();
+            settings.ShowDialog();
+        }
+
         private void JobListView_DoubleClick(object sender, EventArgs e)
         {
             if (JobListView.SelectedItems == null || JobListView.SelectedItems.Count == 0)
@@ -333,7 +356,7 @@ namespace NotifyMeCI.GUI
                     continue;
                 }
 
-                // if the jobs doesn't exist add it                
+                // if the jobs doesn't exist add it
                 if (_job == default(CIJob))
                 {
                     Jobs.Add(job);

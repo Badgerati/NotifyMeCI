@@ -14,7 +14,7 @@ namespace NotifyMeCI.GUI
     public class ConsoleOptions
     {
 
-        [Option('m', "minimize", Required = false, DefaultValue = false, HelpText = "Specified whether the application should start minimized to teh System Tray.")]
+        [Option('m', "minimize", Required = false, DefaultValue = false, HelpText = "Specify whether the application should start minimized to the System Tray.")]
         public bool Minimize { get; set; }
 
     }

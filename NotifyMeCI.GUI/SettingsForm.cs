@@ -32,6 +32,7 @@ namespace NotifyMeCI.GUI
         private void Initialise()
         {
             MinimizeChkBox.Checked = _settings.Minimize;
+            AbortedEqualsFailedChkBox.Checked = _settings.AbortedEqualsFailed;
         }
 
         #endregion
@@ -55,6 +56,11 @@ namespace NotifyMeCI.GUI
         private void MinimizeChkBox_CheckedChanged(object sender, EventArgs e)
         {
             _settings.Minimize = MinimizeChkBox.Checked;
+        }
+
+        private void AbortedEqualsFailedChkBox_CheckedChanged(object sender, EventArgs e)
+        {
+            _settings.AbortedEqualsFailed = AbortedEqualsFailedChkBox.Checked;
         }
 
         #endregion

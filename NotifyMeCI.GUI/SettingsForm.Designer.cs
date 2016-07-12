@@ -32,12 +32,13 @@
             this.CancelBtn = new System.Windows.Forms.Button();
             this.OkBtn = new System.Windows.Forms.Button();
             this.MinimizeChkBox = new System.Windows.Forms.CheckBox();
+            this.AbortedEqualsFailedChkBox = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // CancelBtn
             // 
             this.CancelBtn.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.CancelBtn.Location = new System.Drawing.Point(256, 55);
+            this.CancelBtn.Location = new System.Drawing.Point(256, 77);
             this.CancelBtn.Name = "CancelBtn";
             this.CancelBtn.Size = new System.Drawing.Size(75, 23);
             this.CancelBtn.TabIndex = 0;
@@ -46,7 +47,7 @@
             // 
             // OkBtn
             // 
-            this.OkBtn.Location = new System.Drawing.Point(175, 55);
+            this.OkBtn.Location = new System.Drawing.Point(175, 77);
             this.OkBtn.Name = "OkBtn";
             this.OkBtn.Size = new System.Drawing.Size(75, 23);
             this.OkBtn.TabIndex = 1;
@@ -65,19 +66,31 @@
             this.MinimizeChkBox.UseVisualStyleBackColor = true;
             this.MinimizeChkBox.CheckedChanged += new System.EventHandler(this.MinimizeChkBox_CheckedChanged);
             // 
+            // AbortedEqualsFailedChkBox
+            // 
+            this.AbortedEqualsFailedChkBox.AutoSize = true;
+            this.AbortedEqualsFailedChkBox.Location = new System.Drawing.Point(12, 35);
+            this.AbortedEqualsFailedChkBox.Name = "AbortedEqualsFailedChkBox";
+            this.AbortedEqualsFailedChkBox.Size = new System.Drawing.Size(168, 17);
+            this.AbortedEqualsFailedChkBox.TabIndex = 3;
+            this.AbortedEqualsFailedChkBox.Text = "Treat aborted builds as failed?";
+            this.AbortedEqualsFailedChkBox.UseVisualStyleBackColor = true;
+            this.AbortedEqualsFailedChkBox.CheckedChanged += new System.EventHandler(this.AbortedEqualsFailedChkBox_CheckedChanged);
+            // 
             // SettingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(343, 90);
+            this.ClientSize = new System.Drawing.Size(343, 112);
+            this.Controls.Add(this.AbortedEqualsFailedChkBox);
             this.Controls.Add(this.MinimizeChkBox);
             this.Controls.Add(this.OkBtn);
             this.Controls.Add(this.CancelBtn);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(359, 129);
+            this.MaximumSize = new System.Drawing.Size(359, 150);
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(359, 129);
+            this.MinimumSize = new System.Drawing.Size(359, 150);
             this.Name = "SettingsForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Settings";
@@ -90,5 +103,6 @@
         private System.Windows.Forms.Button OkBtn;
         private System.Windows.Forms.Button CancelBtn;
         private System.Windows.Forms.CheckBox MinimizeChkBox;
+        private System.Windows.Forms.CheckBox AbortedEqualsFailedChkBox;
     }
 }

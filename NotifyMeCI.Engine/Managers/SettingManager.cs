@@ -12,6 +12,7 @@ using NotifyMeCI.Injector;
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using NotifyMeCI.Engine.Enums;
 
 namespace NotifyMeCI.Engine.Managers
 {
@@ -23,6 +24,11 @@ namespace NotifyMeCI.Engine.Managers
         private ISettingRepository SettingRepository
         {
             get { return DIContainer.Instance.Get<ISettingRepository>(); }
+        }
+
+        private IBuildStatusRepository BuildStatusRepository
+        {
+            get { return DIContainer.Instance.Get<IBuildStatusRepository>(); }
         }
 
         #endregion
@@ -66,12 +72,23 @@ namespace NotifyMeCI.Engine.Managers
             get { return _abortedEqualsFailed; }
             set
             {
-                if(_abortedEqualsFailed != value)
+                if (_abortedEqualsFailed != value)
                 {
                     _abortedEqualsFailed = value;
                     Get(nameof(AbortedEqualsFailed)).BooleanValue = value;
                     Save();
                 }
+            }
+        }
+
+        private IDictionary<BuildStatusType, BuildStatus> _buildStatuses = new Dictionary<BuildStatusType, BuildStatus>();
+        public IDictionary<BuildStatusType, BuildStatus> BuildStatuses
+        {
+            get { return _buildStatuses; }
+            set
+            {
+                _buildStatuses = value;
+                Save();
             }
         }
 
@@ -90,6 +107,13 @@ namespace NotifyMeCI.Engine.Managers
 
         private void Initialise()
         {
+            InitialiseSettings();
+            InitialiseBuildStatuses();
+        }
+
+        private void InitialiseSettings()
+        {
+            // retrieve the settings from the repository
             _settings = SettingRepository.All();
             if (_settings == default(IList<Setting>) || !_settings.Any())
             {
@@ -104,6 +128,7 @@ namespace NotifyMeCI.Engine.Managers
                     case nameof(Minimize):
                         _minimize = setting.BooleanValue;
                         break;
+
                     case nameof(AbortedEqualsFailed):
                         _abortedEqualsFailed = setting.BooleanValue;
                         break;
@@ -111,7 +136,24 @@ namespace NotifyMeCI.Engine.Managers
             }
         }
 
-        private Setting Get(string name)
+        private void InitialiseBuildStatuses()
+        {
+            // retrieve the build status configurations from the repository
+            var buildStatuses = BuildStatusRepository.All();
+            if (buildStatuses == default(IList<BuildStatus>) || !buildStatuses.Any())
+            {
+                return;
+            }
+
+            _buildStatuses = new Dictionary<BuildStatusType, BuildStatus>(buildStatuses.Count);
+            buildStatuses.ToList().ForEach(x => _buildStatuses.Add(x.BuildStatusType, x));
+        }
+
+        #endregion
+
+        #region Public Methods
+
+        public Setting Get(string name)
         {
             var newSetting = new Setting() { Name = name };
 
@@ -136,18 +178,17 @@ namespace NotifyMeCI.Engine.Managers
             return setting;
         }
 
-        #endregion
-
-        #region Public Methods
-
-        private void Save()
+        public void Save()
         {
-            if (_settings == default(IList<Setting>) || !_settings.Any())
+            if (_settings != default(IList<Setting>) && _settings.Any())
             {
-                return;
+                SettingRepository.UpdateMany(_settings);
             }
 
-            SettingRepository.UpdateMany(_settings);
+            if (_buildStatuses != default(IDictionary<BuildStatusType, BuildStatus>) && _buildStatuses.Any())
+            {
+                BuildStatusRepository.UpdateMany(_buildStatuses.Values.ToList());
+            }
         }
 
         #endregion

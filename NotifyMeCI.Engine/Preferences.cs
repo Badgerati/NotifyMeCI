@@ -9,7 +9,7 @@ License: MIT (see LICENSE for details)
 using System;
 using System.Drawing;
 
-namespace NotifyMeCI.GUI
+namespace NotifyMeCI.Engine
 {
     public static class Preferences
     {

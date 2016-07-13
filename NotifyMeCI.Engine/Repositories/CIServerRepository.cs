@@ -16,24 +16,8 @@ using System.Collections.Generic;
 namespace NotifyMeCI.Engine.Repositories
 {
     [InjectionInterface(typeof(ICIServerRepository))]
-    public class CIServerRepository : ICIServerRepository
+    public class CIServerRepository : Repository<CIServer>, ICIServerRepository
     {
-
-        #region Properties
-
-        private const string _collectionName = "CIServer";
-        public string CollectionName
-        {
-            get { return _collectionName; }
-        }
-
-        private const string _dataStore = "NotifyMeCI";
-        public string DataStore
-        {
-            get { return _dataStore; }
-        }
-
-        #endregion
 
         #region Public Methods
 
@@ -45,52 +29,29 @@ namespace NotifyMeCI.Engine.Repositories
             server.LastPollDate = now;
             server.NextPollDate = now;
 
-            IcarusClient.Instance
-                .GetDataStore(_dataStore)
-                .GetCollection<CIServer>(_collectionName)
-                .Insert(server);
+            Collection.Insert(server);
         }
 
         public CIServer Update(CIServer server)
         {
             server.LastUpdated = DateTime.Now;
 
-            return IcarusClient.Instance
-                .GetDataStore(_dataStore)
-                .GetCollection<CIServer>(_collectionName)
-                .Update(server);
+            return Collection.Update(server);
         }
 
         public CIServer Remove(CIServer server)
         {
-            return IcarusClient.Instance
-                .GetDataStore(_dataStore)
-                .GetCollection<CIServer>(_collectionName)
-                .Remove(server._id);
-        }
-
-        public IList<CIServer> All()
-        {
-            return IcarusClient.Instance
-                .GetDataStore(_dataStore)
-                .GetCollection<CIServer>(_collectionName)
-                .All();
+            return Collection.Remove(server._id);
         }
 
         public CIServer FindByName(string name)
         {
-            return IcarusClient.Instance
-                .GetDataStore(_dataStore)
-                .GetCollection<CIServer>(_collectionName)
-                .Find("$[?(@.Name == '" + name + "')]");
+            return Collection.Find("$[?(@.Name == '" + name + "')]");
         }
 
         public IList<CIServer> FindByNextPollDate()
         {
-            return IcarusClient.Instance
-                .GetDataStore(_dataStore)
-                .GetCollection<CIServer>(_collectionName)
-                .FindMany("NextPollDate", DateTime.Now, IcarusEqualityFilter.LessThanOrEqual);
+            return Collection.FindMany("NextPollDate", DateTime.Now, IcarusEqualityFilter.LessThanOrEqual);
         }
 
         #endregion

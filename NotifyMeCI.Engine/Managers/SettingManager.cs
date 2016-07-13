@@ -104,6 +104,9 @@ namespace NotifyMeCI.Engine.Managers
                     case nameof(Minimize):
                         _minimize = setting.BooleanValue;
                         break;
+                    case nameof(AbortedEqualsFailed):
+                        _abortedEqualsFailed = setting.BooleanValue;
+                        break;
                 }
             }
         }

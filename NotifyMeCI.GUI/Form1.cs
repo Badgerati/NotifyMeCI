@@ -96,7 +96,6 @@ namespace NotifyMeCI.GUI
                 Hide();
 
                 TaskbarNotifier.Visible = true;
-                TaskbarNotifier.ShowBalloonTip(10000, "Test", "Test", ToolTipIcon.Info);
             }
         }
 
@@ -139,6 +138,7 @@ namespace NotifyMeCI.GUI
                     {
                         JobTask.CoreLogic();
                     }
+                    UpdateJobGui(Jobs);
                     break;
             }
         }

@@ -390,7 +390,7 @@ namespace NotifyMeCI.GUI
             }
 
             // reset ordering
-            Jobs = Jobs.OrderBy(a => a.BuildStatus).ToList();
+            Jobs = Jobs.OrderBy(a => a.BuildStatus, new BuildStatusComparer(SettingManager.Instance.AbortedEqualsFailed)).ToList();            
 
             // show the inform list
             UpdateNotifyIcon(Jobs);
@@ -410,7 +410,7 @@ namespace NotifyMeCI.GUI
                 return;
             }
 
-            if (jobs.Any(x => x.BuildStatus == BuildStatusType.Aborted || x.BuildStatus == BuildStatusType.Failed))
+            if (jobs.Any(x => (x.BuildStatus == BuildStatusType.Aborted && SettingManager.Instance.AbortedEqualsFailed) || x.BuildStatus == BuildStatusType.Failed))
             {
                 TaskbarNotifier.Icon = Resources.red_icon;
             }
@@ -482,6 +482,13 @@ namespace NotifyMeCI.GUI
 
                     case BuildStatusType.Building:
                         item.BackColor = Preferences.BUILDING_COLOR;
+                        break;
+
+                    case BuildStatusType.Aborted:
+                        if (SettingManager.Instance.AbortedEqualsFailed)
+                            item.BackColor = Preferences.FAIL_COLOR;
+                        else
+                            item.BackColor = Preferences.DISABLED_COLOR;
                         break;
 
                     case BuildStatusType.Disabled:

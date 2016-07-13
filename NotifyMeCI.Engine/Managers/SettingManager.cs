@@ -60,6 +60,21 @@ namespace NotifyMeCI.Engine.Managers
             }
         }
 
+        private bool _abortedEqualsFailed = true;
+        public bool AbortedEqualsFailed
+        {
+            get { return _abortedEqualsFailed; }
+            set
+            {
+                if(_abortedEqualsFailed != value)
+                {
+                    _abortedEqualsFailed = value;
+                    Get(nameof(AbortedEqualsFailed)).BooleanValue = value;
+                    Save();
+                }
+            }
+        }
+
         #endregion
 
         #region Constructor
@@ -88,6 +103,9 @@ namespace NotifyMeCI.Engine.Managers
                 {
                     case nameof(Minimize):
                         _minimize = setting.BooleanValue;
+                        break;
+                    case nameof(AbortedEqualsFailed):
+                        _abortedEqualsFailed = setting.BooleanValue;
                         break;
                 }
             }

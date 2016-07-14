@@ -109,11 +109,12 @@ namespace NotifyMeCI.GUI
             // setup the rest of the table
             for (var i = 1; i <= statuses.Length; i++)
             {
+                var statusMapped = BuildStatusTypeHelper.Parse(statuses[i - 1]);
                 BuildStatusTable.Controls.Add(new Label() { Text = statuses[i - 1], Margin = new Padding(0, 7, 0, 0) }, 0, i);
 
-                if (buildStatuses.ContainsKey(BuildStatusTypeHelper.Parse(statuses[i - 1])))
+                if (buildStatuses.ContainsKey(statusMapped))
                 {
-                    buildStatus = buildStatuses[BuildStatusTypeHelper.Parse(statuses[i - 1])];
+                    buildStatus = buildStatuses[statusMapped];
                     BuildStatusTable.Controls.Add(new NumericUpDown() { Minimum = 0, Maximum = 100, Value = buildStatus.OrderPosition }, 1, i);
 
                     var colourBtn = new Button() { BackColor = Color.FromArgb(buildStatus.ColorA, buildStatus.ColorR, buildStatus.ColorG, buildStatus.ColorB) };
@@ -127,7 +128,7 @@ namespace NotifyMeCI.GUI
                 {
                     BuildStatusTable.Controls.Add(new NumericUpDown() { Minimum = 0, Maximum = 100, Value = (i - 1) }, 1, i);
 
-                    var colourBtn = new Button() { BackColor = Color.Transparent };
+                    var colourBtn = new Button() { BackColor = buildStatuses.MapColor(statusMapped) };
                     colourBtn.Margin = new Padding(0, 1, 0, 0);
                     colourBtn.Click += ColourBtn_Click;
                     BuildStatusTable.Controls.Add(colourBtn, 2, i);

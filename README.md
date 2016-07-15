@@ -4,6 +4,7 @@ Notify Me CI
 [![Build Status](https://travis-ci.org/Badgerati/NotifyMeCI.svg?branch=master)](https://travis-ci.org/Badgerati/NotifyMeCI)
 [![Build status](https://ci.appveyor.com/api/projects/status/xhjm5ra3ai0yf0ft?svg=true)](https://ci.appveyor.com/project/Badgerati/notifymeci)
 [![Code Climate](https://codeclimate.com/github/Badgerati/NotifyMeCI/badges/gpa.svg)](https://codeclimate.com/github/Badgerati/NotifyMeCI)
+[![Gitter](https://badges.gitter.im/Badgerati/NotifyMeCI.svg)](https://gitter.im/Badgerati/NotifyMeCI?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/Badgerati/NotifyMeCI/master/LICENSE.txt)
 
 Notify Me CI is a desktop/system tray application to notify you of CI tasks across varying Servers. And if you're wondering, yes the name is a pun on "Notice me senpai!"

@@ -27,7 +27,7 @@ Notify Me CI is a desktop application to notify you of CI tasks across varying S
     <packageSourceUrl>https://github.com/Badgerati/NotifyMeCI/tree/master/nuget-packages</packageSourceUrl>
     <docsUrl>https://github.com/Badgerati/NotifyMeCI</docsUrl>
     <bugTrackerUrl>https://github.com/Badgerati/NotifyMeCI/issues</bugTrackerUrl>
-    <tags>notify ci continuous integration notification desktop tray jenkins appveyor</tags>
+    <tags>notify me ci continuous integration build notification desktop system tray jenkins appveyor travis</tags>
     <copyright>Copyright 2016</copyright>
     <licenseUrl>https://github.com/Badgerati/NotifyMeCI/blob/master/LICENSE.txt</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>

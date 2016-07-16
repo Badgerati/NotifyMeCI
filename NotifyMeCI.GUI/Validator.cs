@@ -13,6 +13,7 @@ using NotifyMeCI.Injector;
 using System;
 using System.Net;
 using NotifyMeCI.Engine.Servers;
+using NotifyMeCI.Engine;
 
 namespace NotifyMeCI.GUI
 {

@@ -5,8 +5,7 @@ Copyright (c) 2016, Matthew Kelly (Badgerati)
 Company: Cadaeic Studios
 License: MIT (see LICENSE for details)
  */
-
-using Icarus.Core;
+ 
 using NotifyMeCI.Engine.Repositories.Interfaces;
 using NotifyMeCI.Engine.Objects;
 using NotifyMeCI.Injector;
@@ -17,35 +16,15 @@ using System.Collections.Generic;
 namespace NotifyMeCI.Engine.Repositories
 {
     [InjectionInterface(typeof(ISettingRepository))]
-    public class SettingRepository : ISettingRepository
+    public class SettingRepository : Repository<Setting>, ISettingRepository
     {
-
-        #region Properties
-
-        private const string _collectionName = "Setting";
-        public string CollectionName
-        {
-            get { return _collectionName; }
-        }
-
-        private const string _dataStore = "NotifyMeCI";
-        public string DataStore
-        {
-            get { return _dataStore; }
-        }
-
-        #endregion
 
         #region Public Methods
 
         public void Insert(Setting setting)
         {
             setting.LastUpdated = DateTime.Now;
-
-            IcarusClient.Instance
-                .GetDataStore(_dataStore)
-                .GetCollection<Setting>(_collectionName)
-                .Insert(setting);
+            Collection.Insert(setting);
         }
 
         public Setting Update(Setting setting)
@@ -61,12 +40,8 @@ namespace NotifyMeCI.Engine.Repositories
             var newSettings = settings.Where(x => x._id == 0).ToArray();
             var oldSettings = settings.Where(x => x._id > 0).ToArray();
 
-            var collection = IcarusClient.Instance
-                .GetDataStore(_dataStore)
-                .GetCollection<Setting>(_collectionName);
-
-            var oldUpdatedSettings = collection.UpdateMany(oldSettings) ?? new List<Setting>();
-            var newUpdatedSettings = collection.InsertMany(newSettings) ?? new List<Setting>();
+            var oldUpdatedSettings = Collection.UpdateMany(oldSettings) ?? new List<Setting>();
+            var newUpdatedSettings = Collection.InsertMany(newSettings) ?? new List<Setting>();
 
             oldUpdatedSettings.ToList().AddRange(newUpdatedSettings);
             return oldUpdatedSettings;
@@ -74,26 +49,12 @@ namespace NotifyMeCI.Engine.Repositories
 
         public Setting Remove(Setting setting)
         {
-            return IcarusClient.Instance
-                .GetDataStore(_dataStore)
-                .GetCollection<Setting>(_collectionName)
-                .Remove(setting._id);
-        }
-
-        public IList<Setting> All()
-        {
-            return IcarusClient.Instance
-                .GetDataStore(_dataStore)
-                .GetCollection<Setting>(_collectionName)
-                .All();
+            return Collection.Remove(setting._id);
         }
 
         public Setting FindByName(string name)
         {
-            return IcarusClient.Instance
-                .GetDataStore(_dataStore)
-                .GetCollection<Setting>(_collectionName)
-                .Find("$[?(@.Name == '" + name + "')]");
+            return Collection.Find("$[?(@.Name == '" + name + "')]");
         }
 
         #endregion

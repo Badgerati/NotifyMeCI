@@ -7,7 +7,7 @@ License: MIT (see LICENSE for details)
  */
 
 using NotifyMeCI.Engine.Enums;
-using NotifyMeCI.Engine.Misc;
+using NotifyMeCI.Engine.Events;
 using NotifyMeCI.Engine.Repositories.Interfaces;
 using NotifyMeCI.Engine.Objects;
 using NotifyMeCI.Injector;
@@ -22,6 +22,7 @@ using NotifyMeCI.GUI.Properties;
 using NotifyMeCI.Engine.Tasks;
 using System.Diagnostics;
 using NotifyMeCI.Engine.Managers;
+using NotifyMeCI.Engine;
 
 namespace NotifyMeCI.GUI
 {
@@ -276,6 +277,7 @@ namespace NotifyMeCI.GUI
         {
             var settings = new SettingsForm();
             settings.ShowDialog();
+            UpdateJobGui(Jobs);
         }
 
         private void JobListView_DoubleClick(object sender, EventArgs e)
@@ -389,9 +391,6 @@ namespace NotifyMeCI.GUI
                 Jobs.Remove(job);
             }
 
-            // reset ordering
-            Jobs = Jobs.OrderBy(a => a.BuildStatus, new BuildStatusComparer(SettingManager.Instance.AbortedEqualsFailed)).ToList();            
-
             // show the inform list
             UpdateNotifyIcon(Jobs);
             NotifyOfJobs(informList);
@@ -436,6 +435,7 @@ namespace NotifyMeCI.GUI
 
         private void UpdateJobGui(IList<CIJob> jobs)
         {
+            // Clear the current jobs list
             if (JobListView.InvokeRequired)
             {
                 JobListView.Invoke((MethodInvoker)delegate { JobListView.Items.Clear(); });
@@ -445,6 +445,7 @@ namespace NotifyMeCI.GUI
                 JobListView.Items.Clear();
             }
 
+            // Set the list view height
             if (JobListView.InvokeRequired)
             {
                 JobListView.Invoke((MethodInvoker)delegate { JobListView.SmallImageList = new ImageList() { ImageSize = new Size(1, 26) }; });
@@ -454,8 +455,17 @@ namespace NotifyMeCI.GUI
                 JobListView.SmallImageList = new ImageList() { ImageSize = new Size(1, 26) };
             }
 
+            // reset ordering
+            jobs = jobs.OrderBy(a => a.BuildStatus, new BuildStatusTypeComparer()).ToList();
+
+            // Setup each job in the list
             foreach (var job in jobs)
             {
+                if (!SettingManager.Instance.BuildStatuses.IsVisible(job.BuildStatus))
+                {
+                    continue;
+                }
+
                 var item = new ListViewItem(new string[]
                     {
                         job.BuildId.ToString(),
@@ -466,38 +476,7 @@ namespace NotifyMeCI.GUI
                         job.BuildStatus.ToString()
                     });
 
-                switch (job.BuildStatus)
-                {
-                    case BuildStatusType.Failed:
-                        item.BackColor = Preferences.FAIL_COLOR;
-                        break;
-
-                    case BuildStatusType.Success:
-                        item.BackColor = Preferences.SUCCESS_COLOR;
-                        break;
-
-                    case BuildStatusType.Unstable:
-                        item.BackColor = Preferences.UNSTABLE_COLOR;
-                        break;
-
-                    case BuildStatusType.Building:
-                        item.BackColor = Preferences.BUILDING_COLOR;
-                        break;
-
-                    case BuildStatusType.Aborted:
-                        if (SettingManager.Instance.AbortedEqualsFailed)
-                            item.BackColor = Preferences.FAIL_COLOR;
-                        else
-                            item.BackColor = Preferences.DISABLED_COLOR;
-                        break;
-
-                    case BuildStatusType.Disabled:
-                    case BuildStatusType.NotBuilt:
-                    case BuildStatusType.Unknown:
-                        item.BackColor = Preferences.DISABLED_COLOR;
-                        break;
-                }
-
+                item.BackColor = SettingManager.Instance.BuildStatuses.MapColor(job.BuildStatus);
                 item.ForeColor = Color.Black;
 
                 if (JobListView.InvokeRequired)

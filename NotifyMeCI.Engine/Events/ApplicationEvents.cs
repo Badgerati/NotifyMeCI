@@ -11,7 +11,7 @@ using System;
 using System.IO;
 using System.Reflection;
 
-namespace NotifyMeCI.Engine.Misc
+namespace NotifyMeCI.Engine.Events
 {
     public class ApplicationEvents
     {

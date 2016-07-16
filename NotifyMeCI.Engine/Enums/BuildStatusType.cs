@@ -6,6 +6,7 @@ Company: Cadaeic Studios
 License: MIT (see LICENSE for details)
  */
 
+using NotifyMeCI.Engine.Managers;
 using System;
 using System.Collections.Generic;
 
@@ -25,28 +26,31 @@ namespace NotifyMeCI.Engine.Enums
         Unknown = 8
     }
 
-    public class BuildStatusComparer : IComparer<BuildStatusType>
+
+    public class BuildStatusTypeComparer : IComparer<BuildStatusType>
     {
-        private readonly bool _abortedEqualsFailed;
-
-        public BuildStatusComparer(bool AbortedEqualsFailed)
-        {
-            _abortedEqualsFailed = AbortedEqualsFailed;
-        }
-
         public int Compare(BuildStatusType x, BuildStatusType y)
         {
-            if (x == BuildStatusType.Aborted && !_abortedEqualsFailed)
-                x++;
-            else if (x == BuildStatusType.Success && !_abortedEqualsFailed)
-                x--;
+            var statuses = SettingManager.Instance.BuildStatuses;
 
-            if (y == BuildStatusType.Aborted && !_abortedEqualsFailed)
-                y++;
-            else if (y == BuildStatusType.Success && !_abortedEqualsFailed)
-                y--;
+            var xValue = statuses.ContainsKey(x)
+                ? statuses[x].OrderPosition
+                : (int)x;
 
-            return x - y;
+            var yValue = statuses.ContainsKey(y)
+                ? statuses[y].OrderPosition
+                : (int)y;
+
+            return xValue - yValue;
         }
     }
+
+    public static class BuildStatusTypeHelper
+    {
+        public static BuildStatusType Parse(string value)
+        {
+            return (BuildStatusType)Enum.Parse(typeof(BuildStatusType), value, false);
+        }
+    }
+
 }

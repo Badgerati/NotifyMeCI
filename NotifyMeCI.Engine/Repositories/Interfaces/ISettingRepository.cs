@@ -11,18 +11,14 @@ using System.Collections.Generic;
 
 namespace NotifyMeCI.Engine.Repositories.Interfaces
 {
-    public interface ISettingRepository
+    public interface ISettingRepository : IRepository<Setting>
     {
-
-        string CollectionName { get; }
-        string DataStore { get; }
 
         void Insert(Setting setting);
         Setting Update(Setting setting);
         IList<Setting> UpdateMany(IList<Setting> settings);
         Setting Remove(Setting setting);
         Setting FindByName(string name);
-        IList<Setting> All();
 
     }
 }

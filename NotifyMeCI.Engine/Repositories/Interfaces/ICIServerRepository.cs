@@ -11,18 +11,14 @@ using System.Collections.Generic;
 
 namespace NotifyMeCI.Engine.Repositories.Interfaces
 {
-    public interface ICIServerRepository
+    public interface ICIServerRepository : IRepository<CIServer>
     {
-
-        string CollectionName { get; }
-        string DataStore { get; }
 
         void Insert(CIServer server);
         CIServer Update(CIServer server);
         CIServer Remove(CIServer server);
         CIServer FindByName(string name);
         IList<CIServer> FindByNextPollDate();
-        IList<CIServer> All();
 
     }
 }

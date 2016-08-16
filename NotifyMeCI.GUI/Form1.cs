@@ -385,7 +385,9 @@ namespace NotifyMeCI.GUI
             }
 
             // remove jobs from the list that no longer exist on the server
+            var updatedServers = jobs.Select(j => j.ServerName).Distinct();
             var deadJobs = Jobs.Where(x => !jobs.Any(y => y.Name == x.Name && y.ServerName == x.ServerName));
+            deadJobs = deadJobs.Where(d => updatedServers.Contains(d.ServerName));
             foreach (var job in deadJobs.ToList())
             {
                 Jobs.Remove(job);

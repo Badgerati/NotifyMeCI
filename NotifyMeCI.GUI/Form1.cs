@@ -393,6 +393,9 @@ namespace NotifyMeCI.GUI
                 Jobs.Remove(job);
             }
 
+            // sort the jobs
+            Jobs = Jobs.OrderBy(a => a.BuildStatus, new BuildStatusTypeComparer()).ToList();
+
             // show the inform list
             UpdateNotifyIcon(Jobs);
             NotifyOfJobs(informList);
@@ -456,10 +459,7 @@ namespace NotifyMeCI.GUI
             {
                 JobListView.SmallImageList = new ImageList() { ImageSize = new Size(1, 26) };
             }
-
-            // reset ordering
-            jobs = jobs.OrderBy(a => a.BuildStatus, new BuildStatusTypeComparer()).ToList();
-
+            
             // Setup each job in the list
             foreach (var job in jobs)
             {

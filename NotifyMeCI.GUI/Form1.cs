@@ -325,7 +325,7 @@ namespace NotifyMeCI.GUI
                         server.Name,
                         server.ServerType.ToString(),
                         server.Url,
-                        server.PollInterval.ToString(),
+                        TimeSpan.FromSeconds(server.PollInterval).ToString("h'h 'm'm 's's'"),
                         server.LastPollDate.ToLongDateString() + " " + server.LastPollDate.ToLongTimeString(),
                         server.Enabled.ToString()
                     });
@@ -459,7 +459,7 @@ namespace NotifyMeCI.GUI
             {
                 JobListView.SmallImageList = new ImageList() { ImageSize = new Size(1, 26) };
             }
-            
+
             // Setup each job in the list
             foreach (var job in jobs)
             {
@@ -474,7 +474,7 @@ namespace NotifyMeCI.GUI
                         job.Name,
                         job.ServerName,
                         job.TimeStamp.ToLongDateString() + " " + job.TimeStamp.ToLongTimeString(),
-                        job.Duration + "secs",
+                        TimeSpan.FromSeconds(job.Duration).ToString("h'h 'm'm 's's'"),
                         job.BuildStatus.ToString()
                     });
 

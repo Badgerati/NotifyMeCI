@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.JobsTab = new System.Windows.Forms.TabPage();
@@ -63,7 +64,6 @@
             this.ServerList_LastPollColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ServerList_EnabledColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.TaskbarNotifier = new System.Windows.Forms.NotifyIcon(this.components);
-            this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.JobsTab.SuspendLayout();
@@ -86,6 +86,13 @@
             this.menuStrip1.Size = new System.Drawing.Size(891, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
+            // 
+            // settingsToolStripMenuItem
+            // 
+            this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
+            this.settingsToolStripMenuItem.Text = "Settings";
+            this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
             // 
             // aboutToolStripMenuItem
             // 
@@ -144,7 +151,7 @@
             // JobList_JobNameColumn
             // 
             this.JobList_JobNameColumn.Text = "Job Name";
-            this.JobList_JobNameColumn.Width = 250;
+            this.JobList_JobNameColumn.Width = 240;
             // 
             // JobList_ServerNameColumn
             // 
@@ -159,7 +166,7 @@
             // JobList_DurationColumn
             // 
             this.JobList_DurationColumn.Text = "Duration";
-            this.JobList_DurationColumn.Width = 80;
+            this.JobList_DurationColumn.Width = 90;
             // 
             // JobList_StatusColumn
             // 
@@ -353,7 +360,7 @@
             // ServerList_NameColumn
             // 
             this.ServerList_NameColumn.Text = "Name";
-            this.ServerList_NameColumn.Width = 190;
+            this.ServerList_NameColumn.Width = 180;
             // 
             // ServerList_TypeColumn
             // 
@@ -363,12 +370,12 @@
             // ServerList_UrlColumn
             // 
             this.ServerList_UrlColumn.Text = "URL";
-            this.ServerList_UrlColumn.Width = 320;
+            this.ServerList_UrlColumn.Width = 300;
             // 
             // ServerList_PollColumn
             // 
-            this.ServerList_PollColumn.Text = "Poll";
-            this.ServerList_PollColumn.Width = 50;
+            this.ServerList_PollColumn.Text = "Poll (every)";
+            this.ServerList_PollColumn.Width = 80;
             // 
             // ServerList_LastPollColumn
             // 
@@ -385,13 +392,6 @@
             this.TaskbarNotifier.Icon = ((System.Drawing.Icon)(resources.GetObject("TaskbarNotifier.Icon")));
             this.TaskbarNotifier.Text = "Notify Me CI";
             this.TaskbarNotifier.Visible = true;
-            // 
-            // settingsToolStripMenuItem
-            // 
-            this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
-            this.settingsToolStripMenuItem.Text = "Settings";
-            this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
             // 
             // Form1
             // 

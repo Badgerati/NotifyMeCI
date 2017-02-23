@@ -1,13 +1,17 @@
 $ErrorActionPreference = 'Stop';
 
-$packageName= 'NotifyMeCI'
-$toolsDir   = "$(Split-Path -parent $MyInvocation.MyCommand.Definition)"
-$url        = 'https://github.com/Badgerati/NotifyMeCI/releases/download/v$version$/$version$-Binaries.zip'
+$packageName    = 'NotifyMeCI'
+$toolsDir       = "$(Split-Path -parent $MyInvocation.MyCommand.Definition)"
+$url            = 'https://github.com/Badgerati/NotifyMeCI/releases/download/v$version$/$version$-Binaries.zip'
+$checksum       = '$checksum$'
+$checksumType   = 'sha256'
 
 $packageArgs = @{
-  packageName   = $packageName
-  unzipLocation = $toolsDir
-  url           = $url
+  PackageName   = $packageName
+  UnzipLocation = $toolsDir
+  Url           = $url
+  Checksum      = $checksum
+  ChecksumType  = $checksumType
 }
 
 # Grab and stop any open processes first

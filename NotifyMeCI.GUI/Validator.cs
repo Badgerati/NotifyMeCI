@@ -31,7 +31,7 @@ namespace NotifyMeCI.GUI
 
         #region Helpers
 
-        public static string ValidateServerValues(string serverType, string name, string url, int poll, string apiToken, bool uniqueName = true)
+        public static string ValidateServerValues(string serverType, string name, string url, int poll, int durationThreshold, string apiToken, bool uniqueName = true)
         {
             try
             {
@@ -57,6 +57,12 @@ namespace NotifyMeCI.GUI
                 if (poll < Preferences.MIN_POLL_TIME)
                 {
                     return string.Format("Polling interval must be greater than or equal to {0} seconds, but got: {1}", Preferences.MIN_POLL_TIME, poll);
+                }
+
+                // check duration threshold
+                if (durationThreshold < Preferences.MIN_DURATION_THRESHOLD_TIME)
+                {
+                    return string.Format("Duration Threshold must be greater than or equal to {0} minutes, but got: {1}", Preferences.MIN_DURATION_THRESHOLD_TIME, poll);
                 }
 
                 // check API token

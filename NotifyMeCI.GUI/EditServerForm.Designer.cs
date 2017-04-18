@@ -45,7 +45,11 @@
             this.CancelBtn = new System.Windows.Forms.Button();
             this.DeleteBtn = new System.Windows.Forms.Button();
             this.UpdateBtn = new System.Windows.Forms.Button();
+            this.label6 = new System.Windows.Forms.Label();
+            this.ServerDurThreshNum = new System.Windows.Forms.NumericUpDown();
+            this.label8 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.ServerPollNum)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ServerDurThreshNum)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -66,7 +70,7 @@
             "Jenkins",
             "AppVeyor",
             "TravisCI"});
-            this.ServerTypeDdl.Location = new System.Drawing.Point(93, 6);
+            this.ServerTypeDdl.Location = new System.Drawing.Point(119, 6);
             this.ServerTypeDdl.Name = "ServerTypeDdl";
             this.ServerTypeDdl.Size = new System.Drawing.Size(106, 21);
             this.ServerTypeDdl.TabIndex = 1;
@@ -84,7 +88,7 @@
             // ServerNameTxt
             // 
             this.ServerNameTxt.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ServerNameTxt.Location = new System.Drawing.Point(93, 40);
+            this.ServerNameTxt.Location = new System.Drawing.Point(119, 40);
             this.ServerNameTxt.Name = "ServerNameTxt";
             this.ServerNameTxt.Size = new System.Drawing.Size(226, 20);
             this.ServerNameTxt.TabIndex = 3;
@@ -92,7 +96,7 @@
             // ServerUrlTxt
             // 
             this.ServerUrlTxt.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ServerUrlTxt.Location = new System.Drawing.Point(93, 75);
+            this.ServerUrlTxt.Location = new System.Drawing.Point(119, 75);
             this.ServerUrlTxt.Name = "ServerUrlTxt";
             this.ServerUrlTxt.Size = new System.Drawing.Size(226, 20);
             this.ServerUrlTxt.TabIndex = 5;
@@ -117,7 +121,7 @@
             // 
             // ServerPollNum
             // 
-            this.ServerPollNum.Location = new System.Drawing.Point(93, 111);
+            this.ServerPollNum.Location = new System.Drawing.Point(119, 111);
             this.ServerPollNum.Minimum = new decimal(new int[] {
             10,
             0,
@@ -135,7 +139,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(151, 114);
+            this.label5.Location = new System.Drawing.Point(177, 114);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(49, 13);
             this.label5.TabIndex = 8;
@@ -144,7 +148,7 @@
             // ServerApiTokenTxt
             // 
             this.ServerApiTokenTxt.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ServerApiTokenTxt.Location = new System.Drawing.Point(93, 145);
+            this.ServerApiTokenTxt.Location = new System.Drawing.Point(119, 183);
             this.ServerApiTokenTxt.Name = "ServerApiTokenTxt";
             this.ServerApiTokenTxt.Size = new System.Drawing.Size(226, 20);
             this.ServerApiTokenTxt.TabIndex = 10;
@@ -152,7 +156,7 @@
             // ServerApiTokenLbl
             // 
             this.ServerApiTokenLbl.AutoSize = true;
-            this.ServerApiTokenLbl.Location = new System.Drawing.Point(12, 148);
+            this.ServerApiTokenLbl.Location = new System.Drawing.Point(12, 186);
             this.ServerApiTokenLbl.Name = "ServerApiTokenLbl";
             this.ServerApiTokenLbl.Size = new System.Drawing.Size(78, 13);
             this.ServerApiTokenLbl.TabIndex = 9;
@@ -161,7 +165,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(12, 181);
+            this.label7.Location = new System.Drawing.Point(12, 219);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(49, 13);
             this.label7.TabIndex = 11;
@@ -170,7 +174,7 @@
             // ServerEnabledChk
             // 
             this.ServerEnabledChk.AutoSize = true;
-            this.ServerEnabledChk.Location = new System.Drawing.Point(93, 181);
+            this.ServerEnabledChk.Location = new System.Drawing.Point(119, 219);
             this.ServerEnabledChk.Name = "ServerEnabledChk";
             this.ServerEnabledChk.Size = new System.Drawing.Size(15, 14);
             this.ServerEnabledChk.TabIndex = 12;
@@ -179,7 +183,7 @@
             // CancelBtn
             // 
             this.CancelBtn.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.CancelBtn.Location = new System.Drawing.Point(254, 212);
+            this.CancelBtn.Location = new System.Drawing.Point(250, 246);
             this.CancelBtn.Name = "CancelBtn";
             this.CancelBtn.Size = new System.Drawing.Size(75, 23);
             this.CancelBtn.TabIndex = 15;
@@ -188,7 +192,7 @@
             // 
             // DeleteBtn
             // 
-            this.DeleteBtn.Location = new System.Drawing.Point(134, 212);
+            this.DeleteBtn.Location = new System.Drawing.Point(130, 246);
             this.DeleteBtn.Name = "DeleteBtn";
             this.DeleteBtn.Size = new System.Drawing.Size(75, 23);
             this.DeleteBtn.TabIndex = 14;
@@ -198,7 +202,7 @@
             // 
             // UpdateBtn
             // 
-            this.UpdateBtn.Location = new System.Drawing.Point(12, 212);
+            this.UpdateBtn.Location = new System.Drawing.Point(8, 246);
             this.UpdateBtn.Name = "UpdateBtn";
             this.UpdateBtn.Size = new System.Drawing.Size(75, 23);
             this.UpdateBtn.TabIndex = 13;
@@ -206,11 +210,44 @@
             this.UpdateBtn.UseVisualStyleBackColor = true;
             this.UpdateBtn.Click += new System.EventHandler(this.UpdateBtn_Click);
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(177, 150);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(84, 13);
+            this.label6.TabIndex = 18;
+            this.label6.Text = "Minutes (0 is off)";
+            // 
+            // ServerDurThreshNum
+            // 
+            this.ServerDurThreshNum.Location = new System.Drawing.Point(119, 147);
+            this.ServerDurThreshNum.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.ServerDurThreshNum.Name = "ServerDurThreshNum";
+            this.ServerDurThreshNum.Size = new System.Drawing.Size(58, 20);
+            this.ServerDurThreshNum.TabIndex = 17;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(12, 149);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(100, 13);
+            this.label8.TabIndex = 16;
+            this.label8.Text = "Duration Threshold:";
+            // 
             // EditServerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(333, 239);
+            this.ClientSize = new System.Drawing.Size(353, 279);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.ServerDurThreshNum);
+            this.Controls.Add(this.label8);
             this.Controls.Add(this.UpdateBtn);
             this.Controls.Add(this.DeleteBtn);
             this.Controls.Add(this.CancelBtn);
@@ -229,13 +266,14 @@
             this.Controls.Add(this.label1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(349, 278);
+            this.MaximumSize = new System.Drawing.Size(369, 318);
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(349, 278);
+            this.MinimumSize = new System.Drawing.Size(369, 318);
             this.Name = "EditServerForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Edit Server";
             ((System.ComponentModel.ISupportInitialize)(this.ServerPollNum)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ServerDurThreshNum)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -259,5 +297,8 @@
         private System.Windows.Forms.Button CancelBtn;
         private System.Windows.Forms.Button DeleteBtn;
         private System.Windows.Forms.Button UpdateBtn;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.NumericUpDown ServerDurThreshNum;
+        private System.Windows.Forms.Label label8;
     }
 }

@@ -52,6 +52,7 @@ namespace NotifyMeCI.GUI
             ServerUrlTxt.Text = _server.Url;
             ServerApiTokenTxt.Text = _server.ApiToken;
             ServerPollNum.Value = _server.PollInterval;
+            ServerDurThreshNum.Value = _server.DurationThreshold;
             ServerEnabledChk.Checked = _server.Enabled;
         }
 
@@ -102,7 +103,7 @@ namespace NotifyMeCI.GUI
                     ? string.Empty
                     : selectedItem.ToString();
 
-                var error = Validator.ValidateServerValues(serverTypeTxt, ServerNameTxt.Text, ServerUrlTxt.Text, (int)ServerPollNum.Value, ServerApiTokenTxt.Text, false);
+                var error = Validator.ValidateServerValues(serverTypeTxt, ServerNameTxt.Text, ServerUrlTxt.Text, (int)ServerPollNum.Value, (int)ServerDurThreshNum.Value, ServerApiTokenTxt.Text, false);
                 if (!string.IsNullOrWhiteSpace(error))
                 {
                     Logger.ShowErrorMessage(error, errorTitle);
@@ -118,6 +119,7 @@ namespace NotifyMeCI.GUI
                 _server.Name = ServerNameTxt.Text;
                 _server.Url = ServerUrlTxt.Text;
                 _server.PollInterval = (int)ServerPollNum.Value;
+                _server.DurationThreshold = (int)ServerDurThreshNum.Value;
                 _server.Enabled = ServerEnabledChk.Checked;
                 _server.ApiToken = ServerApiTokenTxt.Visible ? ServerApiTokenTxt.Text : string.Empty;
 

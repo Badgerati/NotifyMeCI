@@ -23,6 +23,7 @@ using NotifyMeCI.Engine.Tasks;
 using System.Diagnostics;
 using NotifyMeCI.Engine.Managers;
 using NotifyMeCI.Engine;
+using NotifyMeCI.Engine.Extensions;
 
 namespace NotifyMeCI.GUI
 {
@@ -45,6 +46,7 @@ namespace NotifyMeCI.GUI
         private JobTask JobTask = default(JobTask);
         private NotifyTask NotifyTask = default(NotifyTask);
         private ConsoleOptions Options = default(ConsoleOptions);
+        private IDictionary<CIJob, DateTime> DurationThresholdPoll = default(IDictionary<CIJob, DateTime>);
 
         #endregion
 
@@ -54,6 +56,7 @@ namespace NotifyMeCI.GUI
         {
             // initialise
             Options = options;
+            DurationThresholdPoll = new Dictionary<CIJob, DateTime>(10);
             InitializeComponent();
 
             // events
@@ -212,7 +215,7 @@ namespace NotifyMeCI.GUI
                     ? string.Empty
                     : selectedItem.ToString();
 
-                var error = Validator.ValidateServerValues(serverTypeTxt, ServerNameTxt.Text, ServerUrlTxt.Text, (int)PollIntervalNbr.Value, ApiTokenTxt.Text);
+                var error = Validator.ValidateServerValues(serverTypeTxt, ServerNameTxt.Text, ServerUrlTxt.Text, (int)PollIntervalNbr.Value, (int)DurThresholdNbr.Value, ApiTokenTxt.Text);
                 if (!string.IsNullOrWhiteSpace(error))
                 {
                     Logger.ShowErrorMessage(error, errorTitle);
@@ -230,6 +233,7 @@ namespace NotifyMeCI.GUI
                     Name = ServerNameTxt.Text,
                     Url = ServerUrlTxt.Text,
                     PollInterval = (int)PollIntervalNbr.Value,
+                    DurationThreshold = (int)DurThresholdNbr.Value,
                     CurrentlyPolling = false,
                     Enabled = true,
                     ApiToken = ApiTokenTxt.Visible ? ApiTokenTxt.Text : string.Empty
@@ -242,6 +246,7 @@ namespace NotifyMeCI.GUI
                 ServerUrlTxt.Text = string.Empty;
                 ServerNameTxt.Text = string.Empty;
                 PollIntervalNbr.Value = 30;
+                DurThresholdNbr.Value = 0;
 
                 // declare success
                 MessageBox.Show("New server added successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -336,6 +341,34 @@ namespace NotifyMeCI.GUI
             }
         }
 
+        private bool CheckJobDurationThreshold(CIJob job)
+        {
+            // check of duration poll is not set to in the future
+            var pollExists = DurationThresholdPoll.Any(x => x.Key.Name == job.Name && x.Key.ServerName == job.ServerName);
+
+            // has the job gone over it's threshold?
+            if (job.IsOverThreshold())
+            {
+                // if poll entry doesn't exist, create it
+                if (!pollExists)
+                {
+                    DurationThresholdPoll.Add(job, DateTime.Now.AddMinutes(1));
+                    return true;
+                }
+
+                // get the poll, and see if we need to inform again
+                var poll = DurationThresholdPoll.Single(x => x.Key.Name == job.Name && x.Key.ServerName == job.ServerName);
+
+                if (DateTime.Now >= poll.Value)
+                {
+                    DurationThresholdPoll[poll.Key] = DateTime.Now.AddMinutes(1);
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         private void UpdateJobsList(IList<CIJob> jobs)
         {
             if (jobs == default(IList<CIJob>) || !jobs.Any())
@@ -354,6 +387,12 @@ namespace NotifyMeCI.GUI
                 // if the jobs exists with the same status then continue
                 if (_job != default(CIJob) && _job.BuildStatus == job.BuildStatus)
                 {
+                    // unless if the job is building, are we over the duration threshold?
+                    if (CheckJobDurationThreshold(job))
+                    {
+                        informList.Add(job);
+                    }
+
                     UpdateJob(_job, job);
                     continue;
                 }
@@ -435,7 +474,7 @@ namespace NotifyMeCI.GUI
 
         private void NotifyJob(CIJob job, int sleep)
         {
-            TaskbarNotifier.ShowBalloonTip(sleep, job.Name, string.Format("{0} on {1}", job.BuildStatus, job.ServerName), ToolTipIcon.Info);
+            TaskbarNotifier.ShowBalloonTip(sleep, job.Name, job.GetToolTipText(), job.GetToolTipIcon());
         }
 
         private void UpdateJobGui(IList<CIJob> jobs)

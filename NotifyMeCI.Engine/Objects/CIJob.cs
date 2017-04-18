@@ -13,7 +13,7 @@ namespace NotifyMeCI.Engine.Objects
 {
     public class CIJob
     {
-        
+
         public CIServerType ServerType { get; set; }
         public string ServerName { get; set; }
         public string BuildId { get; set; }

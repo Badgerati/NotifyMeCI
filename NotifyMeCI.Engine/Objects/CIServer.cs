@@ -22,6 +22,7 @@ namespace NotifyMeCI.Engine.Objects
         public bool CurrentlyPolling { get; set; }
         public string ApiToken { get; set; }
         public bool Enabled { get; set; }
+        public int DurationThreshold { get; set; }
         public DateTime CreateDate { get; set; }
         public DateTime LastUpdated { get; set; }
         public DateTime LastPollDate { get; set; }

@@ -46,6 +46,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -57,6 +58,7 @@
     <Compile Include="Enums\BuildStatusType.cs" />
     <Compile Include="Enums\CIServerType.cs" />
     <Compile Include="Exceptions\NMCIException.cs" />
+    <Compile Include="Extensions\CIJobExtension.cs" />
     <Compile Include="Managers\SettingManager.cs" />
     <Compile Include="Events\ApplicationEvents.cs" />
     <Compile Include="Objects\BuildStatus.cs" />

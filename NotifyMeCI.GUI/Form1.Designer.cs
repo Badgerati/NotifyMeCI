@@ -46,7 +46,6 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.ApiTokenLbl = new System.Windows.Forms.Label();
             this.ApiTokenTxt = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.PollIntervalNbr = new System.Windows.Forms.NumericUpDown();
             this.label3 = new System.Windows.Forms.Label();
@@ -64,6 +63,8 @@
             this.ServerList_LastPollColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ServerList_EnabledColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.TaskbarNotifier = new System.Windows.Forms.NotifyIcon(this.components);
+            this.label5 = new System.Windows.Forms.Label();
+            this.DurThresholdNbr = new System.Windows.Forms.NumericUpDown();
             this.menuStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.JobsTab.SuspendLayout();
@@ -73,6 +74,7 @@
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PollIntervalNbr)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DurThresholdNbr)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -196,9 +198,10 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.label5);
+            this.splitContainer1.Panel1.Controls.Add(this.DurThresholdNbr);
             this.splitContainer1.Panel1.Controls.Add(this.ApiTokenLbl);
             this.splitContainer1.Panel1.Controls.Add(this.ApiTokenTxt);
-            this.splitContainer1.Panel1.Controls.Add(this.label5);
             this.splitContainer1.Panel1.Controls.Add(this.label4);
             this.splitContainer1.Panel1.Controls.Add(this.PollIntervalNbr);
             this.splitContainer1.Panel1.Controls.Add(this.label3);
@@ -232,28 +235,19 @@
             this.ApiTokenTxt.Size = new System.Drawing.Size(204, 20);
             this.ApiTokenTxt.TabIndex = 64;
             // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(603, 28);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(49, 13);
-            this.label5.TabIndex = 9;
-            this.label5.Text = "Seconds";
-            // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(541, 3);
+            this.label4.Location = new System.Drawing.Point(507, 3);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(24, 13);
+            this.label4.Size = new System.Drawing.Size(55, 13);
             this.label4.TabIndex = 8;
-            this.label4.Text = "Poll";
+            this.label4.Text = "Poll (secs)";
             // 
             // PollIntervalNbr
             // 
             this.PollIntervalNbr.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.PollIntervalNbr.Location = new System.Drawing.Point(544, 24);
+            this.PollIntervalNbr.Location = new System.Drawing.Point(510, 24);
             this.PollIntervalNbr.Minimum = new decimal(new int[] {
             10,
             0,
@@ -271,7 +265,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(352, 3);
+            this.label3.Location = new System.Drawing.Point(321, 3);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(20, 13);
             this.label3.TabIndex = 6;
@@ -280,7 +274,7 @@
             // ServerUrlTxt
             // 
             this.ServerUrlTxt.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ServerUrlTxt.Location = new System.Drawing.Point(355, 24);
+            this.ServerUrlTxt.Location = new System.Drawing.Point(324, 24);
             this.ServerUrlTxt.Name = "ServerUrlTxt";
             this.ServerUrlTxt.Size = new System.Drawing.Size(171, 20);
             this.ServerUrlTxt.TabIndex = 62;
@@ -288,7 +282,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(207, 3);
+            this.label2.Location = new System.Drawing.Point(180, 3);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(35, 13);
             this.label2.TabIndex = 4;
@@ -297,7 +291,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(93, 3);
+            this.label1.Location = new System.Drawing.Point(72, 3);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(65, 13);
             this.label1.TabIndex = 3;
@@ -306,7 +300,7 @@
             // ServerNameTxt
             // 
             this.ServerNameTxt.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ServerNameTxt.Location = new System.Drawing.Point(210, 24);
+            this.ServerNameTxt.Location = new System.Drawing.Point(183, 24);
             this.ServerNameTxt.Name = "ServerNameTxt";
             this.ServerNameTxt.Size = new System.Drawing.Size(128, 20);
             this.ServerNameTxt.TabIndex = 61;
@@ -320,9 +314,9 @@
             "Jenkins",
             "AppVeyor",
             "TravisCI"});
-            this.ServerTypeDdl.Location = new System.Drawing.Point(93, 24);
+            this.ServerTypeDdl.Location = new System.Drawing.Point(72, 24);
             this.ServerTypeDdl.Name = "ServerTypeDdl";
-            this.ServerTypeDdl.Size = new System.Drawing.Size(101, 21);
+            this.ServerTypeDdl.Size = new System.Drawing.Size(97, 21);
             this.ServerTypeDdl.TabIndex = 60;
             this.ServerTypeDdl.SelectedIndexChanged += new System.EventHandler(this.ServerTypeDdl_SelectedIndexChanged);
             // 
@@ -330,9 +324,9 @@
             // 
             this.AddServerBtn.Location = new System.Drawing.Point(4, 3);
             this.AddServerBtn.Name = "AddServerBtn";
-            this.AddServerBtn.Size = new System.Drawing.Size(75, 42);
+            this.AddServerBtn.Size = new System.Drawing.Size(55, 42);
             this.AddServerBtn.TabIndex = 99;
-            this.AddServerBtn.Text = "Add Server";
+            this.AddServerBtn.Text = "Add";
             this.AddServerBtn.UseVisualStyleBackColor = true;
             this.AddServerBtn.Click += new System.EventHandler(this.AddServerBtn_Click);
             // 
@@ -393,6 +387,28 @@
             this.TaskbarNotifier.Text = "Notify Me CI";
             this.TaskbarNotifier.Visible = true;
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(578, 3);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(84, 13);
+            this.label5.TabIndex = 100;
+            this.label5.Text = "Threshold (mins)";
+            // 
+            // DurThresholdNbr
+            // 
+            this.DurThresholdNbr.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.DurThresholdNbr.Location = new System.Drawing.Point(581, 24);
+            this.DurThresholdNbr.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.DurThresholdNbr.Name = "DurThresholdNbr";
+            this.DurThresholdNbr.Size = new System.Drawing.Size(58, 20);
+            this.DurThresholdNbr.TabIndex = 101;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -416,6 +432,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.PollIntervalNbr)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DurThresholdNbr)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -433,7 +450,6 @@
         private System.Windows.Forms.Button AddServerBtn;
         private System.Windows.Forms.Label ApiTokenLbl;
         private System.Windows.Forms.TextBox ApiTokenTxt;
-        private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.NumericUpDown PollIntervalNbr;
         private System.Windows.Forms.Label label3;
@@ -457,6 +473,8 @@
         private System.Windows.Forms.ColumnHeader JobList_StatusColumn;
         private System.Windows.Forms.NotifyIcon TaskbarNotifier;
         private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.NumericUpDown DurThresholdNbr;
     }
 }
 

@@ -23,6 +23,7 @@ namespace NotifyMeCI.Engine
         public static readonly DateTime EPOCH_DATE = new DateTime(1970, 1, 1, 0, 0, 0, 0);
 
         public const int MIN_POLL_TIME = 10;
+        public const int MIN_DURATION_THRESHOLD_TIME = 0;
 
         public const string GREEN_ICON = "green_icon.ico";
         public const string RED_ICON = "red_icon.ico";
